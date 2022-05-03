@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+
     pass
     '''
     This is a custom version of the built in User class
