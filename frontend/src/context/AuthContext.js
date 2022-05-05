@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { createContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -19,9 +19,10 @@ function setUserObject(user) {
 }
 
 export const AuthProvider = ({ children }) => {
-  const BASE_URL = "http://127.0.0.1:8000/api/auth";
-  const userToken = JSON.parse(localStorage.getItem("token"));
+  const BASE_URL = 'http://127.0.0.1:8000/api/auth';
+  const userToken = JSON.parse(localStorage.getItem('token'));
   const decodedUser = userToken ? jwtDecode(userToken) : null;
+  console.log(decodedUser);
   const [token, setToken] = useState(userToken);
   const [user, setUser] = useState(setUserObject(decodedUser));
   const [isServerError, setIsServerError] = useState(false);
@@ -38,11 +39,11 @@ export const AuthProvider = ({ children }) => {
       };
       let response = await axios.post(`${BASE_URL}/register/`, finalData);
       if (response.status === 201) {
-        console.log("Successful registration! Log in to access token");
+        console.log('Successful registration! Log in to access token');
         setIsServerError(false);
-        navigate("/login");
+        navigate('/login');
       } else {
-        navigate("/register");
+        navigate('/register');
       }
     } catch (error) {
       console.log(error.toJSON());
@@ -53,28 +54,28 @@ export const AuthProvider = ({ children }) => {
     try {
       let response = await axios.post(`${BASE_URL}/login/`, loginData);
       if (response.status === 200) {
-        localStorage.setItem("token", JSON.stringify(response.data.access));
-        setToken(JSON.parse(localStorage.getItem("token")));
+        localStorage.setItem('token', JSON.stringify(response.data.access));
+        setToken(JSON.parse(localStorage.getItem('token')));
         let loggedInUser = jwtDecode(response.data.access);
         setUser(setUserObject(loggedInUser));
         setIsServerError(false);
-        navigate("/");
+        navigate('/');
       } else {
-        navigate("/register");
+        navigate('/register');
       }
     } catch (error) {
       console.log(error.toJSON());
       setIsServerError(true);
-      navigate("/register");
+      navigate('/register');
     }
   };
 
   const logoutUser = () => {
     if (user) {
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       setUser(null);
       setToken(null);
-      navigate("/");
+      navigate('/');
     }
   };
 
