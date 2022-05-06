@@ -9,11 +9,14 @@ li {
 }
 
 .navBar {
-  background: steelblue;
-  box-shadow: 4px 2px 5px gray;
+  background: #252424;
+  border-bottom: 1px solid rgb(124, 123, 123);
   color: white;
   margin-bottom: 2rem;
   padding: 1.5rem 2rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .navBar button {
@@ -32,4 +35,8 @@ li {
 .brand {
   cursor: pointer;
   font-size: 2rem;
+}
+.right-nav {
+  display: flex;
+  flex-direction: row;
 }
