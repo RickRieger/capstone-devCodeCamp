@@ -1,12 +1,11 @@
-from functools import partial
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import FriendshipStatusSerializer
-from .models import FriendshipStatus
 from .serializers import UsersSerializer
+from .models import FriendshipStatus
 from authentication.models import User
 
 
@@ -55,11 +54,16 @@ def friend_request_pending(request):
       elif item.requestTo == request.user:
         friends.append(item.requestor)
     serializer = UsersSerializer(friends, many=True)
-    results = [pendingFriendsSerializer.data, serializer.data]
-    return Response(results,status=status.HTTP_200_OK)   
+    return Response(pendingFriendsSerializer.data, status=status.HTTP_200_OK)   
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
- 
-    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_users(request):
+  if request.method == 'GET':
+    allUsersExceptLoggedIn = User.objects.all().exclude(id = request.user.id).exclude(username = "admin")
+    serializer = UsersSerializer(allUsersExceptLoggedIn, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+  return Response(status=status.HTTP_400_BAD_REQUEST)
   
   
