@@ -13,17 +13,20 @@ import Footer from './components/Footer/Footer';
 
 // Util Imports
 import PrivateRoute from './utils/PrivateRoute';
+import { useState } from 'react';
+import { Fragment } from 'react';
 
 function App() {
+  const [upDateSearch, setUpDateSearch] = useState(null);
   return (
-    <>
-      <Navbar />
+    <Fragment>
+      <Navbar setUpDateSearch={setUpDateSearch} />
       <Routes>
         <Route
           path='/'
           element={
             <PrivateRoute>
-              <HomePage />
+              <HomePage upDateSearch={upDateSearch} />
             </PrivateRoute>
           }
         />
@@ -31,7 +34,7 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
       </Routes>
       <Footer />
-    </>
+    </Fragment>
   );
 }
 

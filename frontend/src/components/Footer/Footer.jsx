@@ -1,9 +1,13 @@
-import "./Footer.css";
-
+import './Footer.css';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 const Footer = () => {
   return (
     <footer>
-      <p>Copyright © 2022</p>{" "}
+      {/* <Box sx={{ width: '100%' }}>
+        <LinearProgress />
+      </Box> */}
+      <p>Copyright © 2022</p>{' '}
     </footer>
   );
 };

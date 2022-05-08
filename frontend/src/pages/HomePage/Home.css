@@ -1,16 +1,8 @@
-.container {
-  overflow: scroll;
-  padding: 5rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
 .event-card {
-  width: 30rem;
+  width: 27rem;
   block-size: fit-content;
   border-radius: 1rem;
-  height: auto;
+  /* height: auto; */
   background-color: #252424;
   margin: 4rem;
   align-content: space-around;
@@ -19,7 +11,6 @@
 }
 .event-image {
   width: 100%;
-
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
@@ -57,9 +48,6 @@ a:hover {
   margin-bottom: 1rem;
   text-align: left;
 }
-.fb-share-button {
-  margin-top: 0.5rem;
-}
 
 .icon-buttons {
   display: flex;
@@ -68,22 +56,28 @@ a:hover {
   font-size: 0.7rem;
   color: rgb(135, 250, 250);
   align-items: center;
+  width: 7rem;
 }
 .icon-buttons:hover {
   color: rgb(0, 208, 208);
   background-color: transparent;
 }
 ::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(left, #22add4, #1e98ba);
+  background: linear-gradient(to left, #22add4, #1e98ba);
 }
 
 @media only screen and (max-width: 1900px) {
-  .event-container {
-    width: 50%;
+  .event-card {
+    width: 20rem;
   }
 }
 @media only screen and (max-width: 800px) {
-  .event-container {
-    width: 100%;
+  .container {
+    padding: 0;
+    width: 100vw;
+  }
+
+  .event-card {
+    width: 10rem;
   }
 }

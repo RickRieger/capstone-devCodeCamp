@@ -3,49 +3,80 @@ import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import './Home.css';
 import axios from 'axios';
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import InfoIcon from '@mui/icons-material/Info';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import ReactAudioPlayer from 'react-audio-player';
 import MusicCard from '../../components/MusicCard/MusicCard';
-const HomePage = () => {
-  const [user, token] = useAuth();
-  const [musicCollection, setMusicCollection] = useState(null);
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+
+const HomePage = ({ upDateSearch }) => {
+  const [token] = useAuth();
+  let [musicCollection, setMusicCollection] = useState(null);
+  const [index, setIndex] = useState(0);
+  const [queryString, setQueryString] = useState(null);
+
+  const logSomething = () => {
+    setIndex(index + 25);
+    getAllEventsAtRandom();
+    console.log('bottom of page hit');
+  };
+
+  const scrollRef = useBottomScrollListener(logSomething);
 
   useEffect(() => {
-    getAllEventsAtRandom();
-  }, [token]);
+    if (upDateSearch) {
+      setQueryString(upDateSearch);
+      getAllEventsAtRandom();
+      window.scrollTo(0, 0);
+    }
+  }, [token, upDateSearch, queryString]);
 
   const getAllEventsAtRandom = async () => {
     const options = {
       method: 'GET',
       url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
-      params: { q: 'eminem' },
+      params: { q: queryString, index: index },
       headers: {
         'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
-        'X-RapidAPI-Key': '405cf8c179msh5f4d383fbbc07dcp1f824fjsnccd940673b12',
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
       },
     };
     try {
       let result = await axios.request(options);
+      result = result.data;
       setMusicCollection(result.data);
     } catch (e) {
       console.log(e.message);
     }
   };
   console.log(musicCollection);
+  const override = 'display: block; margin: 0 auto;border-color: red;size:5';
 
-  if (!musicCollection) {
-    return '';
+  if (!musicCollection || musicCollection.error) {
+    return (
+      <div className='container-placeholder'>
+        <div style={{ marginTop: '20rem' }}>
+          {' '}
+          <img
+            src='/clipart1638227.png'
+            alt='clipart'
+            style={{ width: '10rem', height: '10rem' }}
+          />
+          <span style={{ fontSize: '2rem' }}>Search something...</span>
+        </div>
+      </div>
+    );
   } else {
     return (
-      <div className='container'>
+      <div className='container' ref={scrollRef}>
         {/* <h1>Home Page for {user.username}!</h1> */}
-        {musicCollection.data.map((result) => {
+        {musicCollection.map((result, index) => {
           return (
             <MusicCard
-              image={result.album.cover_big}
+              image={
+                result.album.cover_big
+                  ? result.album.cover_big
+                  : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
+              }
               sampleTrack={result.preview}
+              key={index}
             />
           );
         })}
