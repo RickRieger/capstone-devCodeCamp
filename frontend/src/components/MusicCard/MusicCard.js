@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import InfoIcon from '@mui/icons-material/Info';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -7,15 +8,22 @@ import ReactAudioPlayer from 'react-audio-player';
 
 const MusicCard = ({ image, sampleTrack, albumId }) => {
   const [showPlayer, setShowPlayer] = useState(false);
+  const navigate = useNavigate();
   const ref = useRef(null);
-
   useEffect(() => {
     document.addEventListener('mousedown', (e) => {
       setShowPlayer(false);
     });
+    return () => {
+      document.removeEventListener('mousedown', (e) => {
+        setShowPlayer(false);
+      });
+    };
   }, []);
 
-  // showAlbumInfo = (e) => {};
+  const handleNavigate = () => {
+    navigate(`/album-info/${albumId}`);
+  };
 
   return (
     <div className='event-card'>
@@ -26,12 +34,7 @@ const MusicCard = ({ image, sampleTrack, albumId }) => {
             <BookmarkAddedIcon />
             save album
           </button>
-          <button
-            className='icon-buttons'
-            // onClick={(e) => {
-            //   showAlbumInfo(e);
-            // }}
-          >
+          <button className='icon-buttons' onClick={() => handleNavigate()}>
             <InfoIcon />
             get album info
           </button>

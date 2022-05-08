@@ -6,7 +6,7 @@ import './App.css';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
-
+import AlbumInfo from './pages/AlbumInfo/AlbumInfo';
 // Component Imports
 import Navbar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -27,6 +27,14 @@ function App() {
           element={
             <PrivateRoute>
               <HomePage upDateSearch={upDateSearch} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/album-info/:albumId'
+          element={
+            <PrivateRoute>
+              <AlbumInfo />
             </PrivateRoute>
           }
         />

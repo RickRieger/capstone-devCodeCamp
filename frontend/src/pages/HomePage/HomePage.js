@@ -4,28 +4,27 @@ import useAuth from '../../hooks/useAuth';
 import './Home.css';
 import axios from 'axios';
 import MusicCard from '../../components/MusicCard/MusicCard';
-import { useBottomScrollListener } from 'react-bottom-scroll-listener';
-
+// import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 const HomePage = ({ upDateSearch }) => {
   const [token] = useAuth();
   let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
 
-  const logSomething = () => {
-    setIndex(index + 25);
-    getAllEventsAtRandom();
-    console.log('bottom of page hit');
-  };
+  // const logSomething = () => {
+  //   setIndex(index + 25);
+  //   getAllEventsAtRandom();
+  //   console.log('bottom of page hit');
+  // };
 
-  const scrollRef = useBottomScrollListener(logSomething);
+  // const scrollRef = useBottomScrollListener(logSomething);
 
   useEffect(() => {
     if (upDateSearch) {
       setQueryString(upDateSearch);
       getAllEventsAtRandom();
-      window.scrollTo(0, 0);
     }
+    // return () => {};
   }, [token, upDateSearch, queryString]);
 
   const getAllEventsAtRandom = async () => {
@@ -65,7 +64,7 @@ const HomePage = ({ upDateSearch }) => {
     );
   } else {
     return (
-      <div className='container' ref={scrollRef}>
+      <div className='container'>
         {/* <h1>Home Page for {user.username}!</h1> */}
         {musicCollection.map((result, index) => {
           return (
@@ -76,7 +75,8 @@ const HomePage = ({ upDateSearch }) => {
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
               }
               sampleTrack={result.preview}
-              key={index}
+              key={result.id}
+              albumId={result.album.id}
             />
           );
         })}
