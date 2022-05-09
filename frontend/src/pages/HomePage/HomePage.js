@@ -1,8 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import useAuth from '../../hooks/useAuth';
 import './Home.css';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 import MusicCard from '../../components/MusicCard/MusicCard';
 // import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 const HomePage = ({ upDateSearch }) => {
@@ -10,6 +12,7 @@ const HomePage = ({ upDateSearch }) => {
   let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
+  const { user } = useContext(AuthContext);
 
   // const logSomething = () => {
   //   setIndex(index + 25);
@@ -24,8 +27,18 @@ const HomePage = ({ upDateSearch }) => {
       setQueryString(upDateSearch);
       getAllEventsAtRandom();
     }
-    // return () => {};
+    return () => {};
   }, [token, upDateSearch, queryString]);
+
+  const toggleShowPlayer = (index, showPlayer) => {
+    const newMusicCollection = musicCollection.map((album, albumIndex) => {
+      if (albumIndex === index) {
+        return { ...album, showPlayer };
+      }
+      return { ...album, showPlayer: false };
+    });
+    setMusicCollection(newMusicCollection);
+  };
 
   const getAllEventsAtRandom = async () => {
     const options = {
@@ -77,6 +90,11 @@ const HomePage = ({ upDateSearch }) => {
               sampleTrack={result.preview}
               key={result.id}
               albumId={result.album.id}
+              showPlayer={result.showPlayer}
+              toggleShowPlayer={(valueToSet) => {
+                console.log('**** valueToSet: ', valueToSet);
+                toggleShowPlayer(index, valueToSet);
+              }}
             />
           );
         })}

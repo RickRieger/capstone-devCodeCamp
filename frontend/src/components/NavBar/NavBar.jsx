@@ -14,6 +14,7 @@ const Navbar = ({ setUpDateSearch }) => {
       alert('please enter a proper search query!');
       return;
     }
+    navigate('/');
     setUpDateSearch(query);
     setQuery('');
   };

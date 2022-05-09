@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import InfoIcon from '@mui/icons-material/Info';
@@ -6,20 +6,15 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import ReactAudioPlayer from 'react-audio-player';
 
-const MusicCard = ({ image, sampleTrack, albumId }) => {
-  const [showPlayer, setShowPlayer] = useState(false);
+const MusicCard = ({
+  image,
+  sampleTrack,
+  albumId,
+  showPlayer,
+  toggleShowPlayer,
+}) => {
   const navigate = useNavigate();
-  const ref = useRef(null);
-  useEffect(() => {
-    document.addEventListener('mousedown', (e) => {
-      setShowPlayer(false);
-    });
-    return () => {
-      document.removeEventListener('mousedown', (e) => {
-        setShowPlayer(false);
-      });
-    };
-  }, []);
+  console.log('**** aldumId | showPlayer: ', albumId, showPlayer);
 
   const handleNavigate = () => {
     navigate(`/album-info/${albumId}`);
@@ -40,11 +35,17 @@ const MusicCard = ({ image, sampleTrack, albumId }) => {
           </button>
           <button
             className='icon-buttons'
-            onClick={() => setShowPlayer(!showPlayer)}
+            onClick={() => toggleShowPlayer(!!!showPlayer)}
           >
-            {showPlayer ? <StopCircleIcon /> : <PlayCircleIcon />}
-
-            {showPlayer ? `hide player` : 'play sample'}
+            {showPlayer ? (
+              <>
+                <StopCircleIcon /> hide player
+              </>
+            ) : (
+              <>
+                <PlayCircleIcon /> play sample
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -54,7 +55,7 @@ const MusicCard = ({ image, sampleTrack, albumId }) => {
           autoPlay
           controls
           style={{ marginBottom: '1rem', color: 'black' }}
-          onEnded={() => setShowPlayer(false)}
+          onEnded={() => toggleShowPlayer(false)}
         />
       ) : (
         <div style={{ height: '4.8rem' }}></div>

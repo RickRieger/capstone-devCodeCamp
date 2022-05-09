@@ -28,7 +28,7 @@ const TableRows = ({ row, index }) => {
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
       <TableCell component='th' scope='row'>
-        {index + 1}. {row.name}
+        {index + 1}. {row.title}
       </TableCell>
 
       <TableCell align='right'>
