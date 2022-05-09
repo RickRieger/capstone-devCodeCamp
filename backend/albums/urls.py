@@ -4,6 +4,7 @@ from albums import views
 
 
 urlpatterns = [
-    path('', views.get_all_albums),
+    path('', views.user_albums),
+    path('<int:pk>', views.user_albums),
 
 ]

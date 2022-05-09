@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from authentication.models import User
 from .models import Album
 
@@ -15,8 +16,9 @@ class UsersSerializer(serializers.ModelSerializer):
 
 class AlbumSerializer(serializers.ModelSerializer):
     user = UsersSerializer(read_only=True)
+    album_id = serializers.IntegerField(required=True, validators=[
+                                   UniqueValidator(queryset=Album.objects.all())])
     class Meta:
         model = Album
-        fields = ['user', 'album_id', 'title', 'artist', 'image', 'preview']
-        depth = 2
-
+        fields = ['id','user', 'album_id', 'title', 'artist', 'image', 'preview', 'preview_title']
+        depth = 1

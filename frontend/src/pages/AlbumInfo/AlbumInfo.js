@@ -47,7 +47,7 @@ const AlbumInfo = () => {
           <img src={albumInfo.cover_big} alt='' />
         </div>
         <div className='artist-pic'>
-          {/* <img src={albumInfo.artist.picture_big} alt='' /> */}
+          <img src={albumInfo.artist.picture_big} alt='' />
         </div>
         <div className='info'>
           genre:{' '}
