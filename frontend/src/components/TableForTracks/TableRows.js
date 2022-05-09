@@ -6,22 +6,9 @@ import ReactAudioPlayer from 'react-audio-player';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
-const TableRows = ({ row, index }) => {
-  const [muteBoolean, setMuteBoolean] = useState(true);
-  useEffect(() => {
-    document.addEventListener('mousedown', (e) => {
-      setMuteBoolean(true);
-    });
-    return () => {
-      setMuteBoolean(true);
-      document.removeEventListener('mousedown', (e) => {
-        setMuteBoolean(true);
-      });
-    };
-  }, []);
-
-  console.log(muteBoolean);
-
+const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
+  console.log('***PlayMusic:', playMusic);
+  // console.log('***Index:', index);
   return (
     <TableRow
       key={index}
@@ -36,30 +23,32 @@ const TableRows = ({ row, index }) => {
       </TableCell>
 
       <TableCell align='right'>
-        {muteBoolean ? (
+        {playMusic ? (
           <PlayCircleIcon
             sx={{ color: 'rgb(0, 208, 208)' }}
-            onClick={() => setMuteBoolean(!muteBoolean)}
+            onClick={() => togglePlayMusic(!playMusic)}
           />
         ) : (
           <StopCircleIcon
             sx={{ color: 'rgb(0, 208, 208)' }}
-            onClick={() => setMuteBoolean(!muteBoolean)}
+            onClick={() => togglePlayMusic(!playMusic)}
           />
         )}
-
-        <ReactAudioPlayer
-          src={row.preview}
-          autoPlay
-          controls
-          loop={true}
-          style={{
-            marginBottom: '1rem',
-            color: 'black',
-            display: 'none',
-          }}
-          muted={muteBoolean}
-        />
+        {playMusic ? (
+          <ReactAudioPlayer
+            src={row.preview}
+            autoPlay
+            controls
+            loop={true}
+            style={{
+              marginBottom: '1rem',
+              color: 'black',
+              display: 'none',
+            }}
+          />
+        ) : (
+          ''
+        )}
       </TableCell>
     </TableRow>
   );

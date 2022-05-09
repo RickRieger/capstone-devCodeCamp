@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -19,16 +19,24 @@ function createData(title, calories, fat, carbs, preview) {
 //   createData('Gingerbread', 356, 16.0, 49, 3.9),
 // ];
 
-const TableForTracks = ({ tracks }) => {
-  // console.log(tracks);
+const TableForTracks = ({ albumInfo }) => {
+  const [tracks, setTracks] = useState(albumInfo.tracks.data);
+  // let rows = [];
+  // tracks.forEach((track) => {
+  //   rows.push(createData(track.title, track.playMusic, 6.0, 24, track.preview));
+  // });
 
-  let rows = [];
-  tracks.forEach((track) => {
-    rows.push(createData(track.title, 159, 6.0, 24, track.preview));
-  });
+  const togglePlayMusic = (index, playMusic) => {
+    const newTracks = tracks.map((track, trackIndex) => {
+      if (trackIndex === index) {
+        return { ...track, playMusic };
+      }
+      return { ...track, playMusic: false };
+    });
 
-  // console.log(rows);
-
+    setTracks(newTracks);
+  };
+  console.log('***TRACKS:', tracks);
   return (
     <TableContainer
       component={Paper}
@@ -46,8 +54,19 @@ const TableForTracks = ({ tracks }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => {
-            return <TableRows key={index} row={row} index={index} />;
+          {tracks.map((row, index) => {
+            return (
+              <TableRows
+                key={index}
+                row={row}
+                index={index}
+                playMusic={row.playMusic}
+                togglePlayMusic={(valueToSet) => {
+                  console.log('**** valueToSet: ', valueToSet);
+                  togglePlayMusic(index, valueToSet);
+                }}
+              />
+            );
           })}
         </TableBody>
       </Table>

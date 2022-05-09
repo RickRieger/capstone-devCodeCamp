@@ -14,7 +14,7 @@ const MusicCard = ({
   toggleShowPlayer,
 }) => {
   const navigate = useNavigate();
-  console.log('**** aldumId | showPlayer: ', albumId, showPlayer);
+  // console.log('**** aldumId | showPlayer: ', albumId, showPlayer);
 
   const handleNavigate = () => {
     navigate(`/album-info/${albumId}`);
