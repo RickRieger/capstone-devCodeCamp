@@ -1,3 +1,4 @@
+from time import clock_getres
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from .serializers import AlbumSerializer
 @api_view(['GET', 'POST', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def user_albums(request, pk=''):
+    print('+++++++here!')
     if request.method == 'GET':
         albums = Album.objects.filter(user_id=request.user.id)
         serializer = AlbumSerializer(albums, many=True)

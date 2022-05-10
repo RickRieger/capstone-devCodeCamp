@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './NavBar.css';
 import SearchIcon from '@mui/icons-material/Search';
 
-const Navbar = ({ setUpDateSearch }) => {
-  const [query, setQuery] = useState('');
+const Navbar = ({ upDateSearch, setUpDateSearch }) => {
+  const [query, setQuery] = useState(upDateSearch);
   const { logoutUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleSearchQuery = () => {
+
+  useEffect(() => {
+    setQuery(upDateSearch);
+  }, [upDateSearch]);
+
+  const handleSearch = () => {
     if (query.length === 0) {
       alert('please enter a proper search query!');
       return;
     }
     navigate('/');
     setUpDateSearch(query);
-    setQuery('');
   };
+
   return (
     <div className='navBar'>
       <ul>
@@ -35,14 +40,22 @@ const Navbar = ({ setUpDateSearch }) => {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleSearchQuery(e);
+                handleSearch();
               }
             }}
           />
           <SearchIcon
             className='search-button'
-            onClick={() => handleSearchQuery()}
+            onClick={() => handleSearch()}
           />
+        </li>
+        <li>
+          <Link
+            to='/favorites'
+            style={{ textDecoration: 'none', color: 'white' }}
+          >
+            <p>saved music</p>
+          </Link>
         </li>
         <div className='right-nav'>
           <li>

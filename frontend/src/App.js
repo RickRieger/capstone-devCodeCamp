@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import AlbumInfo from './pages/AlbumInfo/AlbumInfo';
+import SavedMusic from './pages/SavedMusic/SavedMusic';
 // Component Imports
 import Navbar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -17,16 +18,21 @@ import { useState } from 'react';
 import { Fragment } from 'react';
 
 function App() {
-  const [upDateSearch, setUpDateSearch] = useState(null);
+  const [upDateSearch, setUpDateSearch] = useState('');
   return (
     <Fragment>
-      <Navbar setUpDateSearch={setUpDateSearch} />
+      <Navbar upDateSearch={upDateSearch} setUpDateSearch={setUpDateSearch} />
       <Routes>
         <Route
           path='/'
           element={
             <PrivateRoute>
-              <HomePage upDateSearch={upDateSearch} />
+              <HomePage
+                upDateSearch={upDateSearch}
+                setUpDateSearch={(updatedQuery) => {
+                  setUpDateSearch(updatedQuery);
+                }}
+              />
             </PrivateRoute>
           }
         />
@@ -35,6 +41,14 @@ function App() {
           element={
             <PrivateRoute>
               <AlbumInfo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/favorites'
+          element={
+            <PrivateRoute>
+              <SavedMusic />
             </PrivateRoute>
           }
         />

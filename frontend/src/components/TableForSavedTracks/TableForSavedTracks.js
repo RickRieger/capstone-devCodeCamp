@@ -7,12 +7,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableRows from './TableRows';
-function createData(title, calories, fat, carbs, preview) {
-  return { title, calories, fat, carbs, preview };
-}
 
-const TableForTracks = ({ albumInfo }) => {
-  const [tracks, setTracks] = useState(albumInfo.tracks.data);
+const TableForSavedTracks = ({ savedTracks }) => {
+  const [tracks, setTracks] = useState(savedTracks);
 
   const togglePlayMusic = (index, playMusic) => {
     const newTracks = tracks.map((track, trackIndex) => {
@@ -37,11 +34,11 @@ const TableForTracks = ({ albumInfo }) => {
         <TableHead>
           <TableRow>
             <TableCell>Track-Title</TableCell>
-            <TableCell align='center'>Album</TableCell>
+            <TableCell align='left'>Album</TableCell>
             <TableCell align='center'>Artist</TableCell>
             <TableCell align='right'>Share</TableCell>
-            <TableCell align='right'>Save</TableCell>
             <TableCell align='right'>Play</TableCell>
+            <TableCell align='right'>Remove</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +46,6 @@ const TableForTracks = ({ albumInfo }) => {
             return (
               <TableRows
                 key={index}
-                album={albumInfo}
                 row={row}
                 index={index}
                 playMusic={row.playMusic}
@@ -65,4 +61,4 @@ const TableForTracks = ({ albumInfo }) => {
   );
 };
 
-export default TableForTracks;
+export default TableForSavedTracks;

@@ -17,7 +17,7 @@ class UsersSerializer(serializers.ModelSerializer):
 class AlbumSerializer(serializers.ModelSerializer):
     user = UsersSerializer(read_only=True)
     album_id = serializers.IntegerField(required=True, validators=[
-                                   UniqueValidator(queryset=Album.objects.all())])
+                                   UniqueValidator(queryset=Album.objects.all(), message="My custom error",)])
     class Meta:
         model = Album
         fields = ['id','user', 'album_id', 'title', 'artist', 'image', 'preview', 'preview_title']

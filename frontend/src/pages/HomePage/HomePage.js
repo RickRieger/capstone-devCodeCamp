@@ -6,21 +6,12 @@ import './Home.css';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import MusicCard from '../../components/MusicCard/MusicCard';
-// import { useBottomScrollListener } from 'react-bottom-scroll-listener';
-const HomePage = ({ upDateSearch }) => {
+const HomePage = ({ upDateSearch, setUpDateSearch }) => {
   const [token] = useAuth();
   let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
   const { user } = useContext(AuthContext);
-
-  // const logSomething = () => {
-  //   setIndex(index + 25);
-  //   getAllEventsAtRandom();
-  //   console.log('bottom of page hit');
-  // };
-
-  // const scrollRef = useBottomScrollListener(logSomething);
 
   useEffect(() => {
     if (upDateSearch) {
@@ -78,7 +69,7 @@ const HomePage = ({ upDateSearch }) => {
   } else {
     return (
       <div className='container'>
-        {/* <h1>Home Page for {user.username}!</h1> */}
+        <h1>Home Page for {user.username}!</h1>
         {musicCollection.map((result, index) => {
           return (
             <MusicCard
@@ -88,12 +79,17 @@ const HomePage = ({ upDateSearch }) => {
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
               }
               sampleTrack={result.preview}
+              albumTitle={result.album.title}
+              artistName={result.artist.name}
               key={result.id}
+              trackTitle={result.title}
               albumId={result.album.id}
               showPlayer={result.showPlayer}
               toggleShowPlayer={(valueToSet) => {
-                console.log('**** valueToSet: ', valueToSet);
                 toggleShowPlayer(index, valueToSet);
+              }}
+              setUpDateSearch={(updatedQuery) => {
+                setUpDateSearch(updatedQuery);
               }}
             />
           );

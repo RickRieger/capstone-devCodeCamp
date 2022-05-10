@@ -22,18 +22,12 @@ const AlbumInfo = () => {
     try {
       let result = await axios.request(options);
       result = result.data;
-      // console.log(result);
-      // console.log(result.data);
-      // console.log(result.tracks.data);
-      // console.log(result.data.tracks);
       setAlbumInfo(result);
-      // setTracks(result.tracks.data);
     } catch (e) {
       console.log(e.message);
     }
   };
-  console.log('******ALBUM-INFO:', albumInfo);
-  // console.log('******TRACKS-INFO:', tracks);
+  console.log('***** albuminfo:', albumInfo);
   if (!albumInfo) {
     return (
       <div style={{ marginTop: '10rem', display: 'flex', flexWrap: 'wrap' }}>
