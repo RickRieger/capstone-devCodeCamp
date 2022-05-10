@@ -61,11 +61,7 @@ const AlbumInfo = () => {
           <br />
           title:{albumInfo.title}
         </div>
-        <TableForTracks
-          albumInfo={albumInfo}
-          // tracks={tracks}
-          // setTracks={setTracks}
-        />
+        <TableForTracks albumInfo={albumInfo} />
       </div>
     );
   }

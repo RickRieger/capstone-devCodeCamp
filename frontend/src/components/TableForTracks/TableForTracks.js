@@ -37,6 +37,8 @@ const TableForTracks = ({ albumInfo }) => {
     setTracks(newTracks);
   };
   console.log('***TRACKS:', tracks);
+  console.log('***ALBUM:', albumInfo);
+
   return (
     <TableContainer
       component={Paper}
@@ -58,6 +60,7 @@ const TableForTracks = ({ albumInfo }) => {
             return (
               <TableRows
                 key={index}
+                album={albumInfo}
                 row={row}
                 index={index}
                 playMusic={row.playMusic}

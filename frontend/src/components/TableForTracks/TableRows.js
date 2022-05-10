@@ -6,7 +6,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
-const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
+const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
   console.log('***PlayMusic:', playMusic);
   // console.log('***Index:', index);
   return (
