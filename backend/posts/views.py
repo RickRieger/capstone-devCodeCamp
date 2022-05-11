@@ -12,6 +12,7 @@ from .serializers import PostSerializer
 @api_view(['GET', 'DELETE', 'POST'])
 @permission_classes([IsAuthenticated])
 def posts(request, pk=''):
+    print('======', request.data)
     if request.method == 'POST':
         serializer = PostSerializer(data=request.data)
         if serializer.is_valid():

@@ -1,4 +1,4 @@
-import React, { useContex } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import InfoIcon from '@mui/icons-material/Info';
@@ -6,60 +6,37 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CloseIcon from '@mui/icons-material/Close';
 import ReactAudioPlayer from 'react-audio-player';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Close from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
-import { borderColor } from '@mui/material/node_modules/@mui/system';
-import Avatar from '@mui/material/Avatar';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  height: 'auto',
-  bgcolor: '#252424',
-  boxShadow: 24,
-  borderRadius: 4,
-  padding: 3,
-
-  boxShadow:
-    'rgba(142, 163, 255, 0.8) 0px 20px 20px, rgba(142, 163, 255, 0.8) 0px -12px 20px, rgba(142, 163, 255, 0.8) 0px 4px 6px, rgba(142, 163, 255, 0.8) 0px 9px 9px, rgba(142, 163, 255, 0.8) 0px -3px 1px',
-};
+import ModalForPosts from '../ModalForPosts/ModalForPosts';
 
 const MusicCard = ({
-  image,
-  sampleTrack,
-  albumId,
-  albumTitle,
-  artistName,
-  trackTitle,
+  album_image,
+  album_id,
+  album_title,
+  artist_name,
+  track_title,
   showPlayer,
   toggleShowPlayer,
   setUpDateSearch,
   savedAlbums,
-  preview_title,
   albums,
   setAlbums,
+  track_id,
+  preview_track,
 }) => {
+  console.log('****', artist_name);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const album = {
-    album_id: albumId,
-    title: albumTitle,
-    artist: artistName,
-    image: image,
-    preview: sampleTrack,
-    preview_title: trackTitle,
+    album_id: album_id,
+    title: album_title,
+    artist: artist_name,
+    image: album_image,
+    preview: preview_track,
+    preview_title: track_title,
   };
   const navigate = useNavigate();
   const auth = useAuth();
@@ -69,7 +46,7 @@ const MusicCard = ({
       setUpDateSearch('');
     }
 
-    navigate(`/album-info/${albumId}`);
+    navigate(`/album-info/${album_id}`);
   };
   const saveAlbumToFavorites = async () => {
     try {
@@ -86,7 +63,7 @@ const MusicCard = ({
   const removeAlbumFromFavorites = async () => {
     try {
       const res = await axios.delete(
-        `http://127.0.0.1:8000/api/albums/${albumId}`,
+        `http://127.0.0.1:8000/api/albums/${album_id}`,
 
         {
           headers: {
@@ -94,7 +71,7 @@ const MusicCard = ({
           },
         }
       );
-      let newAlbums = albums.filter((album) => album.id != albumId);
+      let newAlbums = albums.filter((album) => album.id != album_id);
       setAlbums(newAlbums);
       console.log(res.data);
     } catch (e) {
@@ -104,7 +81,11 @@ const MusicCard = ({
 
   return (
     <div className='event-card'>
-      <img className='event-image' src={image} alt='album or song cover' />
+      <img
+        className='event-image'
+        src={album_image}
+        alt='album or song cover'
+      />
       <div className='event-details'>
         <p
           style={{
@@ -113,7 +94,7 @@ const MusicCard = ({
             visibility: showPlayer ? 'visible' : 'hidden',
           }}
         >
-          "{trackTitle}"
+          "{track_title}"
         </p>
         <div className='row-links'>
           {savedAlbums ? (
@@ -159,7 +140,7 @@ const MusicCard = ({
       </div>
       {showPlayer ? (
         <ReactAudioPlayer
-          src={sampleTrack}
+          src={preview_track}
           autoPlay
           controls
           loop={true}
@@ -172,95 +153,17 @@ const MusicCard = ({
       ) : (
         ''
       )}
-      <Modal
+      <ModalForPosts
+        album_id={album_id}
+        track_id={track_id}
+        album_title={album_title}
+        track_title={track_title}
+        artist_name={artist_name}
+        album_image={album_image}
+        preview_track={preview_track}
+        handleClose={handleClose}
         open={open}
-        onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
-        <Box sx={style}>
-          <div style={{ padding: '.5rem' }}>
-            <CloseIcon
-              style={{ color: 'red', float: 'right' }}
-              onClick={() => handleClose()}
-            />
-          </div>
-
-          <Typography
-            id='modal-modal-title'
-            variant='h4'
-            component='h2'
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '1rem',
-            }}
-          >
-            <span>Create post</span>
-          </Typography>
-          <hr />
-
-          <Typography
-            id='modal-modal-description'
-            sx={{ mt: 4, padding: 2, color: 'white', fontSize: '2rem' }}
-          >
-            <div>
-              <Avatar
-                sx={{
-                  width: 56,
-                  height: 56,
-                  marginTop: '-2rem',
-                  marginBottom: '1rem',
-                }}
-              />
-              {user.first_name} {user.last_name}
-            </div>
-
-            <TextField
-              id='standard-basic'
-              label={`What's on your mind ${user.username}...`}
-              variant='standard'
-              sx={{ width: '100%' }}
-              InputLabelProps={{
-                style: {
-                  color: '#0080ff',
-                  fontSize: '1.5rem',
-                },
-              }}
-              InputProps={{
-                style: {
-                  color: '#fff',
-                  fontSize: '1.5rem',
-                },
-              }}
-              autoFocus
-            />
-          </Typography>
-
-          <img src={image} alt='' />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '1rem',
-            }}
-          >
-            {' '}
-            <Button
-              variant='contained'
-              style={{ minWidth: '80%' }}
-              sx={{
-                ':hover': {
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                },
-              }}
-            >
-              Post
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+      />
     </div>
   );
 };

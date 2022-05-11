@@ -12,7 +12,6 @@ const HomePage = ({ upDateSearch, setUpDateSearch }) => {
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
   const { user } = useContext(AuthContext);
-  console.log('*****', user);
 
   useEffect(() => {
     if (upDateSearch) {
@@ -50,7 +49,7 @@ const HomePage = ({ upDateSearch, setUpDateSearch }) => {
       console.log(e.message);
     }
   };
-  console.log(musicCollection);
+
   const override = 'display: block; margin: 0 auto;border-color: red;size:5';
 
   if (!musicCollection || musicCollection.error) {
@@ -74,17 +73,18 @@ const HomePage = ({ upDateSearch, setUpDateSearch }) => {
         {musicCollection.map((result, index) => {
           return (
             <MusicCard
-              image={
+              album_image={
                 result.album.cover_big
                   ? result.album.cover_big
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
               }
-              sampleTrack={result.preview}
-              albumTitle={result.album.title}
-              artistName={result.artist.name}
+              track_id={result.id}
+              preview_track={result.preview}
+              album_title={result.album.title}
+              artist_name={result.artist.name}
               key={result.id}
-              trackTitle={result.title}
-              albumId={result.album.id}
+              track_title={result.title}
+              album_id={result.album.id}
               showPlayer={result.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);
