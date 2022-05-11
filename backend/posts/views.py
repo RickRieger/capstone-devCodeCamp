@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .models import Post
 from .serializers import PostSerializer
-
+from friends.models import FriendshipStatus
 
 
 @api_view(['GET', 'DELETE', 'POST'])
@@ -20,10 +20,21 @@ def posts(request, pk=''):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'GET':
-        feed = Post.objects.all()
+        friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+        # Brett
+        postFeedIds = []
+        for item in friendIds:
+            if item.requestor == request.user:
+               postFeedIds.append(item.requestTo.id)
+            elif item.requestTo == request.user:
+               postFeedIds.append(item.requestor.id)
+        postFeedIds.append(request.user.id) 
+        for item in postFeedIds:
+            print(item)         
+        feed = Post.objects.filter(user_id__in=postFeedIds)
         serializer = PostSerializer(feed, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    elif request.method == 'DELETE':     
+    if request.method == 'DELETE':     
         post = get_object_or_404(Post, pk=pk) 
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
