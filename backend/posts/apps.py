@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class SocialFeedConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'social_feed'
+    name = 'posts'

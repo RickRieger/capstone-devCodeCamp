@@ -1,9 +1,6 @@
 from django.db import models
 from authentication.models import User
 
-
-
-
 class Comments(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   username = models.CharField(max_length=255)

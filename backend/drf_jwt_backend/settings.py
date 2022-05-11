@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'friends',
     'albums',
     'tracks', 
-    'social_feed',
+    'posts',
     'commentsAndReplies'
 ]
 
