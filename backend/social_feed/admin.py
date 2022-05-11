@@ -1,3 +1,5 @@
 from django.contrib import admin
+from social_feed.models import SocialFeed
 
-# Register your models here.
+
+admin.site.register(SocialFeed)

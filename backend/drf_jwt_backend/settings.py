@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'cars.apps.CarsConfig',  # This app is for example use only
     'friends',
     'albums',
-    'tracks'
+    'tracks', 
+    'social_feed',
+    'commentsAndReplies'
 ]
 
 MIDDLEWARE = [

@@ -8,25 +8,28 @@ import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
-const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
+const TableRows = ({
+  row,
+  index,
+  togglePlayMusic,
+  playMusic,
+  tracks,
+  setTracks,
+}) => {
   const auth = useAuth();
   const [user, token] = auth;
-  const saveTrackToFavorites = async () => {
+  const removeTrackFromFavorites = async () => {
     try {
-      const track = {
-        // track_id: row.id,
-        // album: album.title,
-        // title: row.title,
-        // artist: row.artist.name,
-        // image: album.cover_big,
-        // preview: row.preview,
-      };
-      const res = await axios.post('http://127.0.0.1:8000/api/tracks/', track, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(res.data);
+      const res = await axios.delete(
+        `http://127.0.0.1:8000/api/tracks/${row.id}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const newTracks = tracks.filter((track) => track.id !== row.id);
+      setTracks(newTracks);
     } catch (e) {
       console.log(e.response.data);
     }
@@ -34,7 +37,10 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
   return (
     <TableRow
       key={index}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      sx={{
+        '&:last-child td, &:last-child th': { border: 0 },
+      }}
+      style={{ backgroundColor: 'rgb(144 174 244)' }}
     >
       <TableCell component='th' scope='row'>
         {index + 1}. {row.title}
@@ -47,21 +53,18 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
       </TableCell>
 
       <TableCell align='right'>
-        <ShareIcon
-          sx={{ color: 'rgb(0, 208, 208)' }}
-          onClick={() => saveTrackToFavorites()}
-        />
+        <ShareIcon sx={{ color: 'rgb(0, 0, 0)' }} />
       </TableCell>
 
       <TableCell align='right'>
         {playMusic ? (
           <StopCircleIcon
-            sx={{ color: 'rgb(0, 208, 208)' }}
+            sx={{ color: 'rgb(0, 0, 0)' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         ) : (
           <PlayCircleIcon
-            sx={{ color: 'rgb(0, 208, 208)' }}
+            sx={{ color: 'rgb(0, 0, 0)' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         )}
@@ -82,7 +85,10 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic }) => {
         )}
       </TableCell>
       <TableCell align='right'>
-        <DeleteIcon sx={{ color: 'rgb(0, 208, 208)' }} />
+        <DeleteIcon
+          sx={{ color: 'rgb(0, 0, 0)' }}
+          onClick={() => removeTrackFromFavorites()}
+        />
       </TableCell>
     </TableRow>
   );

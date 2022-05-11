@@ -48,7 +48,7 @@ const SavedMusic = () => {
     });
     setAlbums(newAlbumCollection);
   };
-  console.log('=====tracks', tracks);
+  console.log('=====token', token);
   console.log(albums);
   if (tracks && albums) {
     return (
@@ -65,15 +65,17 @@ const SavedMusic = () => {
               sampleTrack={album.preview}
               albumTitle={album.title}
               artistName={album.artist}
-              key={album.id}
+              key={index}
               trackTitle={album.preview_title}
-              albumId={album}
+              albumId={album.id}
               showPlayer={album.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);
               }}
               savedAlbums={true}
               preview_title={album.preview_title}
+              albums={albums}
+              setAlbums={setAlbums}
             />
           );
         })}

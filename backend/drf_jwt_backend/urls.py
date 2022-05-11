@@ -23,4 +23,6 @@ urlpatterns = [
     path('api/friends/', include('friends.urls')),
     path('api/albums/', include('albums.urls')),
     path('api/tracks/', include('tracks.urls')),
+    # path('api/comments/', include('commentsAndReplies.urls')),
+    # path('api/social-feed/', include('social_feed.urls')),
 ]

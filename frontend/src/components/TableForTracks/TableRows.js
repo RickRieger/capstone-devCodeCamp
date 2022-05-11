@@ -35,6 +35,7 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
     <TableRow
       key={index}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      style={{ backgroundColor: 'rgb(144 174 244)' }}
     >
       <TableCell component='th' scope='row'>
         {index + 1}. {row.title}
@@ -44,13 +45,13 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
       <TableCell align='right'>{album.artist.name}</TableCell>
       <TableCell align='right'>
         <ShareIcon
-          sx={{ color: 'rgb(0, 208, 208)' }}
+          sx={{ color: 'rgb(0, 0, 0)' }}
           onClick={() => saveTrackToFavorites()}
         />
       </TableCell>
       <TableCell align='right'>
         <BookmarkAddedIcon
-          sx={{ color: 'rgb(0, 208, 208)' }}
+          sx={{ color: 'rgb(0 0 0)' }}
           onClick={() => saveTrackToFavorites()}
         />
       </TableCell>
@@ -58,12 +59,12 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
       <TableCell align='right'>
         {playMusic ? (
           <StopCircleIcon
-            sx={{ color: 'rgb(0, 208, 208)' }}
+            sx={{ color: 'rgb(0 0 0)' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         ) : (
           <PlayCircleIcon
-            sx={{ color: 'rgb(0, 208, 208)' }}
+            sx={{ color: 'rgb(0 0 0)' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         )}

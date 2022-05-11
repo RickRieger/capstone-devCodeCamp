@@ -12,6 +12,7 @@ const HomePage = ({ upDateSearch, setUpDateSearch }) => {
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
   const { user } = useContext(AuthContext);
+  console.log('*****', user);
 
   useEffect(() => {
     if (upDateSearch) {

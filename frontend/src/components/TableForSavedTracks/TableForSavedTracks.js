@@ -26,9 +26,13 @@ const TableForSavedTracks = ({ savedTracks }) => {
     <TableContainer
       component={Paper}
       sx={{ maxWidth: 800, maxHeight: 400, overflow: 'scroll' }}
+      style={{ color: 'white' }}
     >
       <Table
-        sx={{ maxWidth: 800, backgroundColor: 'rgb(108, 108, 108)' }}
+        sx={{
+          maxWidth: 800,
+          backgroundColor: 'rgb(173 173 173)',
+        }}
         aria-label='simple table'
       >
         <TableHead>
@@ -48,6 +52,8 @@ const TableForSavedTracks = ({ savedTracks }) => {
                 key={index}
                 row={row}
                 index={index}
+                tracks={tracks}
+                setTracks={setTracks}
                 playMusic={row.playMusic}
                 togglePlayMusic={(valueToSet) => {
                   togglePlayMusic(index, valueToSet);

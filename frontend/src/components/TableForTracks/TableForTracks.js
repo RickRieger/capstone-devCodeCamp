@@ -35,7 +35,7 @@ const TableForTracks = ({ albumInfo }) => {
         aria-label='simple table'
       >
         <TableHead>
-          <TableRow>
+          <TableRow style={{ backgroundColor: 'rgb(173 173 173)' }}>
             <TableCell>Track-Title</TableCell>
             <TableCell align='center'>Album</TableCell>
             <TableCell align='center'>Artist</TableCell>
