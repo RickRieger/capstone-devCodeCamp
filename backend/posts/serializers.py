@@ -15,3 +15,8 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id','post','user','album_id', 'track_id', 'album_title','track_title', 'artist_name', 'album_image', 'preview_track']
         depth = 1
 
+class UsersSerializerFriend(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id','username','first_name', 'last_name','friend']
