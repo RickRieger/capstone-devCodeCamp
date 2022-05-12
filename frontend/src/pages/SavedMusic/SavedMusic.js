@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import TableForSavedTracks from '../../components/TableForSavedTracks/TableForSavedTracks';
 import MusicCard from '../../components/MusicCard/MusicCard';
+import { circularProgressClasses } from '@mui/material';
 const SavedMusic = () => {
   const auth = useAuth();
   const [user, token] = auth;
@@ -55,7 +56,7 @@ const SavedMusic = () => {
         {albums.map((album, index) => {
           return (
             <MusicCard
-              image={
+              album_image={
                 album.image
                   ? album.image
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'

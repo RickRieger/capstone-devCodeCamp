@@ -56,7 +56,7 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
     return (
       <div className='container-placeholder'>
         <div style={{ marginTop: '20rem' }}>
-          {' '}
+          {/* https://www.pngkey.com/ */}
           <img
             src='/clipart1638227.png'
             alt='clipart'
@@ -69,7 +69,6 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
   } else {
     return (
       <div className='container'>
-        <h1>Home Page for {user.username}!</h1>
         {musicCollection.map((result, index) => {
           return (
             <MusicCard

@@ -33,7 +33,7 @@ function App() {
           }
         />
         <Route
-          path='/search-results'
+          path='/search-music'
           element={
             <PrivateRoute>
               <SearchResults

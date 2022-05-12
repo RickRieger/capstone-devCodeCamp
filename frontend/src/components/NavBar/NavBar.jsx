@@ -19,7 +19,7 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
       alert('please enter a proper search query!');
       return;
     }
-    navigate('/search-results');
+    navigate('/search-music');
     setUpDateSearch(query);
   };
 
@@ -28,7 +28,11 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
       <ul>
         <li className='brand'>
           <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>
-            <b>devCodeCamp</b>
+            <img
+              src='/clipart1638227.png'
+              alt='logo'
+              style={{ width: '4rem' }}
+            />
           </Link>
         </li>
         <li className='center-nav-cluster'>
@@ -55,6 +59,14 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <p>saved music</p>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to='/search-music'
+            style={{ textDecoration: 'none', color: 'white' }}
+          >
+            <p>search music</p>
           </Link>
         </li>
         <li>
