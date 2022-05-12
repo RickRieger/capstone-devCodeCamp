@@ -2,10 +2,12 @@ ul {
   display: flex;
   justify-content: space-between;
   list-style-type: none;
+  align-items: center;
 }
 
 li {
   font-size: 1.25rem;
+  text-align: center;
 }
 
 .navBar {
@@ -13,25 +15,18 @@ li {
   border-bottom: 1px solid rgb(124, 123, 123);
   color: white;
   margin-bottom: 2rem;
-  padding: 1.5rem 2rem;
+  padding: 1rem 6rem;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 100;
 }
 
-.navBar button {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 0.4rem 0.5rem;
-}
-
-.navBar button:hover {
+/* .navBar button:hover {
   background: white;
   color: steelblue;
   cursor: pointer;
-}
+} */
 
 .brand {
   cursor: pointer;
@@ -97,4 +92,8 @@ li {
 .center-nav-cluster {
   display: flex;
   align-items: center;
+}
+.active {
+  text-decoration: underline;
+  color: blue;
 }

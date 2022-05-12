@@ -63,6 +63,7 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
         </li>
         <li>
           <Link
+            activeClassName='active'
             to='/search-music'
             style={{ textDecoration: 'none', color: 'white' }}
           >
@@ -74,15 +75,16 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
             <p>home</p>
           </Link>
         </li>
-        <div className='right-nav'>
-          <li>
-            {user ? (
-              <button onClick={logoutUser}>Logout</button>
-            ) : (
-              <button onClick={() => navigate('/login')}>Login</button>
-            )}
-          </li>
-        </div>
+
+        {user ? (
+          <div className='right-nav' onClick={logoutUser}>
+            <li>Logout</li>
+          </div>
+        ) : (
+          <div className='right-nav' onClick={() => navigate('/login')}>
+            <li>Login</li>
+          </div>
+        )}
       </ul>
     </div>
   );
