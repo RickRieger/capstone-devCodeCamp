@@ -34,7 +34,6 @@ const ModalForPosts = ({
   handleClose,
   open,
 }) => {
-  console.log(album_id);
   const auth = useAuth();
   const [user, token] = auth;
   const [post, setPost] = useState('');
@@ -48,7 +47,6 @@ const ModalForPosts = ({
     album_image: album_image,
     preview_track: preview_track,
   };
-  console.log('====', token);
 
   const sendPostToTheBackEnd = async () => {
     try {

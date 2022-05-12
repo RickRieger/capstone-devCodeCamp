@@ -12,6 +12,6 @@ class PostSerializer(serializers.ModelSerializer):
     user = UsersSerializer(read_only=True)
     class Meta:
         model = Post
-        fields = ['post','user','album_id', 'track_id', 'album_title','track_title', 'artist_name', 'album_image', 'preview_track']
+        fields = ['id','post','user','album_id', 'track_id', 'album_title','track_title', 'artist_name', 'album_image', 'preview_track']
         depth = 1
 

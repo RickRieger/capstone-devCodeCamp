@@ -48,8 +48,6 @@ const SavedMusic = () => {
     });
     setAlbums(newAlbumCollection);
   };
-  console.log('=====token', token);
-  console.log(albums);
   if (tracks && albums) {
     return (
       <div style={{ marginTop: '400px' }}>

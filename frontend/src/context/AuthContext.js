@@ -8,7 +8,6 @@ const AuthContext = createContext();
 export default AuthContext;
 
 function setUserObject(user) {
-  console.log(user);
   if (!user) {
     return null;
   }
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
   const BASE_URL = 'http://127.0.0.1:8000/api/auth';
   const userToken = JSON.parse(localStorage.getItem('token'));
   const decodedUser = userToken ? jwtDecode(userToken) : null;
-  console.log(decodedUser);
   const [token, setToken] = useState(userToken);
   const [user, setUser] = useState(setUserObject(decodedUser));
   const [isServerError, setIsServerError] = useState(false);
@@ -39,7 +37,6 @@ export const AuthProvider = ({ children }) => {
         first_name: registerData.firstName,
         last_name: registerData.lastName,
       };
-      console.log(finalData);
       let response = await axios.post(`${BASE_URL}/register/`, finalData);
       if (response.status === 201) {
         console.log('Successful registration! Log in to access token');

@@ -1,102 +1,75 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import useAuth from '../../hooks/useAuth';
-import './Home.css';
 import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
+import React, { useState, useEffect } from 'react';
 import MusicCard from '../../components/MusicCard/MusicCard';
-const HomePage = ({ upDateSearch, setUpDateSearch }) => {
-  const [token] = useAuth();
-  let [musicCollection, setMusicCollection] = useState(null);
-  const [index, setIndex] = useState(0);
-  const [queryString, setQueryString] = useState(null);
-  const { user } = useContext(AuthContext);
-
+import useAuth from '../../hooks/useAuth';
+const HomePage = () => {
+  const [feed, setFeed] = useState(null);
+  const auth = useAuth();
+  const [user, token] = auth;
   useEffect(() => {
-    if (upDateSearch) {
-      setQueryString(upDateSearch);
-      getAllEventsAtRandom();
-    }
-    return () => {};
-  }, [token, upDateSearch, queryString]);
-
+    getAllPostsFromFriends();
+  }, []);
   const toggleShowPlayer = (index, showPlayer) => {
-    const newMusicCollection = musicCollection.map((album, albumIndex) => {
-      if (albumIndex === index) {
-        return { ...album, showPlayer };
+    const newFeed = feed.map((feed, feedIndex) => {
+      if (feedIndex === index) {
+        return { ...feed, showPlayer };
       }
-      return { ...album, showPlayer: false };
+      return { ...feed, showPlayer: false };
     });
-    setMusicCollection(newMusicCollection);
+    setFeed(newFeed);
   };
 
-  const getAllEventsAtRandom = async () => {
-    const options = {
-      method: 'GET',
-      url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
-      params: { q: queryString, index: index },
-      headers: {
-        'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-      },
-    };
+  const getAllPostsFromFriends = async () => {
     try {
-      let result = await axios.request(options);
-      result = result.data;
-      setMusicCollection(result.data);
+      const res = await axios.get('http://127.0.0.1:8000/api/posts/', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      console.log(res.data);
+      setFeed(res.data);
     } catch (e) {
-      console.log(e.message);
+      console.log(e.data);
     }
   };
 
-  const override = 'display: block; margin: 0 auto;border-color: red;size:5';
-
-  if (!musicCollection || musicCollection.error) {
-    return (
-      <div className='container-placeholder'>
-        <div style={{ marginTop: '20rem' }}>
-          {' '}
-          <img
-            src='/clipart1638227.png'
-            alt='clipart'
-            style={{ width: '10rem', height: '10rem' }}
-          />
-          <span style={{ fontSize: '2rem' }}>Search something...</span>
-        </div>
-      </div>
-    );
-  } else {
+  if (feed) {
     return (
       <div className='container'>
-        <h1>Home Page for {user.username}!</h1>
-        {musicCollection.map((result, index) => {
+        {/* <h1>Home Page for {user.username}!</h1> */}
+        {feed.map((result, index) => {
           return (
             <MusicCard
+              feed={feed}
+              setFeed={setFeed}
+              postFrom={result.user}
+              is_feed={true}
+              person_who_posted={result.user}
+              post={result.post}
+              post_id={result.id}
               album_image={
-                result.album.cover_big
-                  ? result.album.cover_big
+                result.album_image
+                  ? result.album_image
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
               }
-              track_id={result.id}
-              preview_track={result.preview}
-              album_title={result.album.title}
-              artist_name={result.artist.name}
-              key={result.id}
-              track_title={result.title}
-              album_id={result.album.id}
+              track_id={result.track_id}
+              preview_track={result.preview_track}
+              album_title={result.album_title}
+              artist_name={result.artist_name}
+              key={index}
+              track_title={result.track_title}
+              album_id={result.album_id}
               showPlayer={result.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);
-              }}
-              setUpDateSearch={(updatedQuery) => {
-                setUpDateSearch(updatedQuery);
               }}
             />
           );
         })}
       </div>
     );
+  } else {
+    return <div>HomePage</div>;
   }
 };
 

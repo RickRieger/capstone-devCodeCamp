@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import AlbumInfo from './pages/AlbumInfo/AlbumInfo';
 import SavedMusic from './pages/SavedMusic/SavedMusic';
+import SearchResults from './pages/SearchResults/SearchResults';
 // Component Imports
 import Navbar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -27,7 +28,15 @@ function App() {
           path='/'
           element={
             <PrivateRoute>
-              <HomePage
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/search-results'
+          element={
+            <PrivateRoute>
+              <SearchResults
                 upDateSearch={upDateSearch}
                 setUpDateSearch={(updatedQuery) => {
                   setUpDateSearch(updatedQuery);

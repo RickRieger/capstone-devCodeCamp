@@ -12,6 +12,8 @@ from friends.models import FriendshipStatus
 @api_view(['GET', 'DELETE', 'POST'])
 @permission_classes([IsAuthenticated])
 def posts(request, pk=''):
+    print('====ok====')    
+
     print('======', request.data)
     if request.method == 'POST':
         serializer = PostSerializer(data=request.data)
@@ -34,7 +36,7 @@ def posts(request, pk=''):
         feed = Post.objects.filter(user_id__in=postFeedIds)
         serializer = PostSerializer(feed, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    if request.method == 'DELETE':     
+    if request.method == 'DELETE': 
         post = get_object_or_404(Post, pk=pk) 
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

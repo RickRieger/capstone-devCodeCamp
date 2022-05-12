@@ -19,7 +19,7 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
       alert('please enter a proper search query!');
       return;
     }
-    navigate('/');
+    navigate('/search-results');
     setUpDateSearch(query);
   };
 
@@ -55,6 +55,11 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
             style={{ textDecoration: 'none', color: 'white' }}
           >
             <p>saved music</p>
+          </Link>
+        </li>
+        <li>
+          <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>
+            <p>home</p>
           </Link>
         </li>
         <div className='right-nav'>

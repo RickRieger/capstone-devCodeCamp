@@ -27,7 +27,6 @@ const AlbumInfo = () => {
       console.log(e.message);
     }
   };
-  console.log('***** albuminfo:', albumInfo);
   if (!albumInfo) {
     return (
       <div style={{ marginTop: '10rem', display: 'flex', flexWrap: 'wrap' }}>
