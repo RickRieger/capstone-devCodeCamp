@@ -43,26 +43,6 @@ def posts(request, pk=''):
 
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def search_users(request, query=''):
-    if request.method == 'GET':
 
-
-        friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
-
-        filtered_users = User.objects.filter(first_name__contains = query) 
-        
-        print('====made it here!!!!!!', len(filtered_users))
-        for user in filtered_users:
-            
-            
-            if user.id in friendIds:
-                user.friend = True
-            else: 
-                user.friend = False
-        serializer = UsersSerializerFriend(filtered_users, many=True) 
-        return Response(serializer.data, status=status.HTTP_200_OK)       
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -6,20 +6,17 @@ import './SearchResults.css';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import MusicCard from '../../components/MusicCard/MusicCard';
+import { TextField } from '@mui/material';
+import { Button } from '@mui/material';
 const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
   const [token] = useAuth();
   let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
   const { user } = useContext(AuthContext);
+  const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    if (upDateSearch) {
-      setQueryString(upDateSearch);
-      getAllEventsAtRandom();
-    }
-    return () => {};
-  }, [token, upDateSearch, queryString]);
+  useEffect(() => {}, [musicCollection]);
 
   const toggleShowPlayer = (index, showPlayer) => {
     const newMusicCollection = musicCollection.map((album, albumIndex) => {
@@ -31,11 +28,12 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
     setMusicCollection(newMusicCollection);
   };
 
-  const getAllEventsAtRandom = async () => {
+  const getAllResultsFromQuery = async () => {
+    console.log('okookok');
     const options = {
       method: 'GET',
       url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
-      params: { q: queryString, index: index },
+      params: { q: query, index: index },
       headers: {
         'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
         'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
@@ -62,7 +60,46 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
             alt='clipart'
             style={{ width: '10rem', height: '10rem' }}
           />
-          <span style={{ fontSize: '2rem' }}>Search something...</span>
+          <span style={{ fontSize: '2rem' }}>
+            {' '}
+            <TextField
+              id='standard-basic'
+              label={`Search something ${user.username}...`}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  getAllResultsFromQuery();
+                }
+              }}
+              variant='standard'
+              sx={{ width: '100%', mt: 5 }}
+              InputLabelProps={{
+                style: {
+                  color: '#0080ff',
+                  fontSize: '1.5rem',
+                },
+              }}
+              InputProps={{
+                style: {
+                  color: '#fff',
+                  fontSize: '1.5rem',
+                },
+              }}
+              autoFocus
+            />
+            <Button
+              variant='contained'
+              onClick={() => {
+                getAllResultsFromQuery();
+              }}
+              style={{ marginTop: '4rem' }}
+            >
+              Search
+            </Button>
+          </span>
         </div>
       </div>
     );

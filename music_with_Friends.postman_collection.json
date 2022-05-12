@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "ef1979ba-6abb-46db-9f31-15d764ae5357",
+		"name": "music_with_Friends",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Friend-request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyNTQ1ODY3LCJpYXQiOjE2NTE2ODE4NjcsImp0aSI6ImQ5OGIzNzViNDI3ZDRjNTE4ZWE3ZmFhZWVmNDQ3NGE1IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.s8tmHwyw3ARIP5uWzrkitMq8kR6Waea2v_NBzn5GhiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestor\":4,\n    \"requestTo\":8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/friends/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"friends",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update-friend-status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyNTQ1ODY3LCJpYXQiOjE2NTE2ODE4NjcsImp0aSI6ImQ5OGIzNzViNDI3ZDRjNTE4ZWE3ZmFhZWVmNDQ3NGE1IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.s8tmHwyw3ARIP5uWzrkitMq8kR6Waea2v_NBzn5GhiQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\":\"Accepted\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/friends/31",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"friends",
+						"31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get -all-friends",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUzMTAwMjQxLCJpYXQiOjE2NTIyMzYyNDEsImp0aSI6ImRjOTM1YTk1MGNiNzQ4ZjZhNDhkZjVlNjZhNjJmNTM3IiwidXNlcl9pZCI6OCwidXNlcm5hbWUiOiJyaWNrIiwiZmlyc3RfbmFtZSI6InJpY2siLCJsYXN0X25hbWUiOiJyaWNrIn0.GLYc-4mzj0_iJYhL8aeAKz1E4LNI-PBPzfGTVvj1Zbg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/friends",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-Pending-Friend-Requests",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyNjMwMDUxLCJpYXQiOjE2NTE3NjYwNTEsImp0aSI6IjYzZDczMTA5NTk2ZDQyYmJhNjFjZmUwMGM2NGYyNDczIiwidXNlcl9pZCI6OCwidXNlcm5hbWUiOiJGcmFuayIsImZpcnN0X25hbWUiOiJGcmFuayJ9.QFAZuRtVpiZsrCc5eBkFMKvt3lis87Y4MDnH5_G9yfs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/friends/pending",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"friends",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-All-Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyNjMwMDUxLCJpYXQiOjE2NTE3NjYwNTEsImp0aSI6IjYzZDczMTA5NTk2ZDQyYmJhNjFjZmUwMGM2NGYyNDczIiwidXNlcl9pZCI6OCwidXNlcm5hbWUiOiJGcmFuayIsImZpcnN0X25hbWUiOiJGcmFuayJ9.QFAZuRtVpiZsrCc5eBkFMKvt3lis87Y4MDnH5_G9yfs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://serpapi.com/search.json?engine=google_events&q=Food+Richmond&hl=en&gl=us&api_key=e88309ac5ca1f08aa679378ed00f2f54b62ddbddca721649f422e39c3a4b6a81",
+					"protocol": "https",
+					"host": [
+						"serpapi",
+						"com"
+					],
+					"path": [
+						"search.json"
+					],
+					"query": [
+						{
+							"key": "engine",
+							"value": "google_events"
+						},
+						{
+							"key": "q",
+							"value": "Food+Richmond"
+						},
+						{
+							"key": "hl",
+							"value": "en"
+						},
+						{
+							"key": "gl",
+							"value": "us"
+						},
+						{
+							"key": "api_key",
+							"value": "e88309ac5ca1f08aa679378ed00f2f54b62ddbddca721649f422e39c3a4b6a81"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get-All-Albums-By-User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyOTI1MjM3LCJpYXQiOjE2NTIwNjEyMzcsImp0aSI6IjdmMWFkZDcxZmY0MjRiYzU5OTMzYTJkYjM5NDU1OTgyIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.pUuzI002b1zU0d9toa-5SwSBWzlr9qoJLbAAP9xIIb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/albums",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"albums"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save-Album",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUzMDYwNjM5LCJpYXQiOjE2NTIxOTY2MzksImp0aSI6IjM0NGYxZmY3Y2ZlOTQ0ZTQ4NTBlMTk3MDdkZTY4OTA3IiwidXNlcl9pZCI6OCwidXNlcm5hbWUiOiJyaWNrIiwiZmlyc3RfbmFtZSI6InJpY2sifQ.iJ1LhRV6Xbgbes_kjbrs2rlDU9ytAWjSgMQUeWvA5E8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"album_id\": 24422998,\n    \"title\":\"Can't Buy A Thrill\",\n    \"artist\":\"Steely Dan\",\n    \"image\":\"https://e-cdns-images.dzcdn.net/images/cover/bc1368d560e3694c141f8dc6ea59519d/500x500-000000-80-0-0.jpg\",\n    \"preview\": \"https://cdns-preview-8.dzcdn.net/stream/c-8cc94b3704c2cafbe67912a4126fe239-7.mp3\",\n    \"preview_title\":\"Do It Again\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/albums/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"albums",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-album",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyOTI1MjM3LCJpYXQiOjE2NTIwNjEyMzcsImp0aSI6IjdmMWFkZDcxZmY0MjRiYzU5OTMzYTJkYjM5NDU1OTgyIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.pUuzI002b1zU0d9toa-5SwSBWzlr9qoJLbAAP9xIIb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/albums/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"albums",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save-track",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyOTI1MjM3LCJpYXQiOjE2NTIwNjEyMzcsImp0aSI6IjdmMWFkZDcxZmY0MjRiYzU5OTMzYTJkYjM5NDU1OTgyIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.pUuzI002b1zU0d9toa-5SwSBWzlr9qoJLbAAP9xIIb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"track_id\": 222998,\n    \"album\":\"Can't Buy A Thrill\",\n    \"title\":\"Can't Buy A Thrill\",\n    \"artist\":\"Steely Dan\",\n    \"image\":\"https://e-cdns-images.dzcdn.net/images/cover/bc1368d560e3694c141f8dc6ea59519d/500x500-000000-80-0-0.jpg\",\n    \"preview\": \"https://cdns-preview-8.dzcdn.net/stream/c-8cc94b3704c2cafbe67912a4126fe239-7.mp3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/tracks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tracks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-tracks for user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyOTI1MjM3LCJpYXQiOjE2NTIwNjEyMzcsImp0aSI6IjdmMWFkZDcxZmY0MjRiYzU5OTMzYTJkYjM5NDU1OTgyIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.pUuzI002b1zU0d9toa-5SwSBWzlr9qoJLbAAP9xIIb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/posts/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-track",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUyOTI1MjM3LCJpYXQiOjE2NTIwNjEyMzcsImp0aSI6IjdmMWFkZDcxZmY0MjRiYzU5OTMzYTJkYjM5NDU1OTgyIiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJSaWNrIiwiZmlyc3RfbmFtZSI6IlJpY2sifQ.pUuzI002b1zU0d9toa-5SwSBWzlr9qoJLbAAP9xIIb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/tracks/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"tracks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjUzMTYwMjE3LCJpYXQiOjE2NTIyOTYyMTcsImp0aSI6IjRmNDlmNGYzNTBjZjQyMjViMmY1NDM5OTQ4NWY0MzA0IiwidXNlcl9pZCI6MiwidXNlcm5hbWUiOiJSaWNrdGhlTWFuIiwiZmlyc3RfbmFtZSI6IlJpY2siLCJsYXN0X25hbWUiOiJSaWVnZXIifQ.5P-8h2LFTbNMCghGHxi5EWkpLzMhMErgk37hSIuHs-g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n  \"post\" :\"Hello there\",\n  \"user\" : 1,\n  \"album_id\" : 12345,\n  \"track_id\" : 12345,\n  \"album_title\" :\"blo me\",\n  \"track_title\" :\"again\",\n  \"artist_name\" : \"eat it\",\n  \"album_image\" : \"url.......\",\n  \"preview_track\" : \"url.....\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/posts/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-posts-by-friend-status",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "find-user",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

@@ -7,6 +7,9 @@ from .serializers import FriendshipStatusSerializer
 from .serializers import UsersSerializer
 from .models import FriendshipStatus
 from authentication.models import User
+from django.db.models import Q 
+from difflib import get_close_matches
+
 
 
 @api_view(['POST', 'PATCH', 'GET'])
@@ -53,7 +56,7 @@ def friend_request_pending(request):
         friends.append(item.requestTo)
       elif item.requestTo == request.user:
         friends.append(item.requestor)
-    serializer = UsersSerializer(friends, many=True)
+    # serializer = UsersSerializer(friends, many=True)
     return Response(pendingFriendsSerializer.data, status=status.HTTP_200_OK)   
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
@@ -66,4 +69,26 @@ def get_all_users(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
-  
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def search_users(request, query=''):
+    if request.method == 'GET':
+        
+        print('====made it here!!!!!!', query)
+        idCollection = []
+        friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+        for user in friendIds:
+            idCollection.append(user.id)
+
+        qs = User.objects.all()
+        for term in query.split():
+          qs = qs.filter( Q(first_name__includes = term) | Q(last_name__icontains = term))
+          print(term)
+       
+
+
+        # filtered_users = User.objects.filter(first_name__icontains = query ) | User.objects.filter(last_name__icontains = query )
+        
+        serializer = UsersSerializer(qs, many=True) 
+        return Response(serializer.data, status=status.HTTP_200_OK)       
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

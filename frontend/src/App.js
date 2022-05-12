@@ -36,12 +36,7 @@ function App() {
           path='/search-music'
           element={
             <PrivateRoute>
-              <SearchResults
-                upDateSearch={upDateSearch}
-                setUpDateSearch={(updatedQuery) => {
-                  setUpDateSearch(updatedQuery);
-                }}
-              />
+              <SearchResults />
             </PrivateRoute>
           }
         />

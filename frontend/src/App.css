@@ -52,6 +52,44 @@ button:hover {
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
+.container-main {
+  margin-top: 10rem;
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  overflow: scroll;
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.container-cards {
+  margin-top: 10rem;
+  margin: 0 auto;
+  width: 70vw;
+  height: 100vh;
+  text-align: center;
+  overflow: scroll;
+  padding: 5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.container-friends {
+  margin-top: 11rem;
+  width: 30vw;
+  height: 100vh;
+  text-align: center;
+  overflow: scroll;
+  padding: 5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
 .container-placeholder {
   margin-top: 10rem;
   margin: 0 auto;
@@ -114,4 +152,19 @@ button:hover {
   .container {
     width: 80vw;
   }
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  width: 0;
+  background: transparent;
+  border: none;
 }

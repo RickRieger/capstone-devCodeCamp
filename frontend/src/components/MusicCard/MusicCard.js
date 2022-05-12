@@ -68,6 +68,7 @@ const MusicCard = ({
     }
   };
   const removeAlbumFromFavorites = async () => {
+    console.log(album_id);
     try {
       const res = await axios.delete(
         `http://127.0.0.1:8000/api/albums/${album_id}`,
@@ -80,7 +81,7 @@ const MusicCard = ({
       );
       let newAlbums = albums.filter((album) => album.id != album_id);
       setAlbums(newAlbums);
-      console.log(res.data);
+      console.log(res);
     } catch (e) {
       console.log(e.response.data);
     }

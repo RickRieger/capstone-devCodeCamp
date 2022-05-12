@@ -54,6 +54,7 @@ const SavedMusic = () => {
       <div style={{ marginTop: '400px' }}>
         {<TableForSavedTracks savedTracks={tracks} />}
         {albums.map((album, index) => {
+          console.log(album.id);
           return (
             <MusicCard
               album_image={
@@ -61,12 +62,12 @@ const SavedMusic = () => {
                   ? album.image
                   : 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8'
               }
-              sampleTrack={album.preview}
-              albumTitle={album.title}
-              artistName={album.artist}
+              preview_track={album.preview}
+              album_title={album.title}
+              artist_name={album.artist}
               key={index}
-              trackTitle={album.preview_title}
-              albumId={album.id}
+              track_title={album.preview_title}
+              album_id={album.album_id}
               showPlayer={album.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);
