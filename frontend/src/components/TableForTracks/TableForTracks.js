@@ -57,6 +57,7 @@ const TableForTracks = ({ albumInfo }) => {
           {tracks.map((row, index) => {
             return (
               <TableRows
+                albumInfo={albumInfo}
                 key={index}
                 album={albumInfo}
                 row={row}

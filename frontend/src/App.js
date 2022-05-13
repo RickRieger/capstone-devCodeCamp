@@ -1,6 +1,8 @@
 // General Imports
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Pages Imports
 import HomePage from './pages/HomePage/HomePage';
@@ -9,6 +11,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import AlbumInfo from './pages/AlbumInfo/AlbumInfo';
 import SavedMusic from './pages/SavedMusic/SavedMusic';
 import SearchResults from './pages/SearchResults/SearchResults';
+import UserProfile from './pages/UserProfile/UserProfile';
 // Component Imports
 import Navbar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
@@ -49,6 +52,14 @@ function App() {
           }
         />
         <Route
+          path='/profiles/:userId'
+          element={
+            <PrivateRoute>
+              <AlbumInfo />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path='/favorites'
           element={
             <PrivateRoute>
@@ -60,6 +71,17 @@ function App() {
         <Route path='/login' element={<LoginPage />} />
       </Routes>
       <Footer />
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Fragment>
   );
 }

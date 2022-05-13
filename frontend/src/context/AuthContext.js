@@ -78,7 +78,27 @@ export const AuthProvider = ({ children }) => {
       navigate('/');
     }
   };
+  let [musicCollection, setMusicCollection] = useState(null);
 
+  const getAllResultsFromQuery = async (query, index) => {
+    console.log('okookok');
+    const options = {
+      method: 'GET',
+      url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
+      params: { q: query, index: index },
+      headers: {
+        'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
+      },
+    };
+    try {
+      let result = await axios.request(options);
+      result = result.data;
+      setMusicCollection(result.data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
   const contextData = {
     user,
     token,
@@ -86,6 +106,9 @@ export const AuthProvider = ({ children }) => {
     logoutUser,
     registerUser,
     isServerError,
+    getAllResultsFromQuery,
+    setMusicCollection,
+    musicCollection,
   };
 
   return (

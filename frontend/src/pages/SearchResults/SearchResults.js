@@ -8,13 +8,16 @@ import AuthContext from '../../context/AuthContext';
 import MusicCard from '../../components/MusicCard/MusicCard';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
+
 const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
   const [token] = useAuth();
-  let [musicCollection, setMusicCollection] = useState(null);
+  // let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, getAllResultsFromQuery, musicCollection, setMusicCollection } =
+    useContext(AuthContext);
   const [query, setQuery] = useState('');
+  const auth = useAuth();
 
   useEffect(() => {}, [musicCollection]);
 
@@ -28,25 +31,25 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
     setMusicCollection(newMusicCollection);
   };
 
-  const getAllResultsFromQuery = async () => {
-    console.log('okookok');
-    const options = {
-      method: 'GET',
-      url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
-      params: { q: query, index: index },
-      headers: {
-        'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
-      },
-    };
-    try {
-      let result = await axios.request(options);
-      result = result.data;
-      setMusicCollection(result.data);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+  // const getAllResultsFromQuery = async () => {
+  //   console.log('okookok');
+  //   const options = {
+  //     method: 'GET',
+  //     url: 'https://deezerdevs-deezer.p.rapidapi.com/search',
+  //     params: { q: query, index: index },
+  //     headers: {
+  //       'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
+  //       'X-RapidAPI-Key': process.env.REACT_APP_API_KEY,
+  //     },
+  //   };
+  //   try {
+  //     let result = await axios.request(options);
+  //     result = result.data;
+  //     setMusicCollection(result.data);
+  //   } catch (e) {
+  //     console.log(e.message);
+  //   }
+  // };
 
   const override = 'display: block; margin: 0 auto;border-color: red;size:5';
 
@@ -71,7 +74,7 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  getAllResultsFromQuery();
+                  getAllResultsFromQuery(query, index);
                 }
               }}
               variant='standard'
@@ -93,7 +96,7 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
             <Button
               variant='contained'
               onClick={() => {
-                getAllResultsFromQuery();
+                getAllResultsFromQuery(query, index);
               }}
               style={{ marginTop: '4rem' }}
             >
@@ -107,6 +110,7 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
     return (
       <div className='container'>
         {musicCollection.map((result, index) => {
+          console.log(result.album.id);
           return (
             <MusicCard
               album_image={

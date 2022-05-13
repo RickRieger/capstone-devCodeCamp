@@ -54,7 +54,7 @@ const SavedMusic = () => {
       <div style={{ marginTop: '400px' }}>
         {<TableForSavedTracks savedTracks={tracks} />}
         {albums.map((album, index) => {
-          console.log(album.id);
+          console.log(album);
           return (
             <MusicCard
               album_image={
@@ -67,7 +67,7 @@ const SavedMusic = () => {
               artist_name={album.artist}
               key={album.album_id}
               track_title={album.preview_title}
-              album_id={album.album_id}
+              album_id={album.id}
               showPlayer={album.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);

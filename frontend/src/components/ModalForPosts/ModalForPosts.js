@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -24,6 +25,8 @@ const style = {
 };
 
 const ModalForPosts = ({
+  setUpdate,
+  update,
   album_title,
   album_image,
   album_id,
@@ -47,7 +50,7 @@ const ModalForPosts = ({
     album_image: album_image,
     preview_track: preview_track,
   };
-
+  const navigate = useNavigate();
   const sendPostToTheBackEnd = async () => {
     try {
       const res = await axios.post(
@@ -59,6 +62,8 @@ const ModalForPosts = ({
           },
         }
       );
+
+      navigate('/');
       console.log(res.data);
     } catch (e) {
       console.log(e);

@@ -4,8 +4,6 @@ import MusicCard from '../../components/MusicCard/MusicCard';
 import useAuth from '../../hooks/useAuth';
 import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
-
-import { Tooltip } from '@mui/material';
 import './Home.css';
 const HomePage = () => {
   const [feed, setFeed] = useState(null);

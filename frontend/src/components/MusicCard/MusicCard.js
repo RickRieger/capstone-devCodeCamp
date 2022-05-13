@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import InfoIcon from '@mui/icons-material/Info';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -14,6 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
 const MusicCard = ({
+  setUpdate,
+  update,
   album_image,
   album_id,
   album_title,
@@ -58,8 +61,26 @@ const MusicCard = ({
           Authorization: 'Bearer ' + token,
         },
       });
+      toast('🦄 Album saved!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log(res.data);
     } catch (e) {
+      toast('Album already saved!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log(e.response.data.album_id[0]);
     }
   };
@@ -79,7 +100,7 @@ const MusicCard = ({
       setAlbums(newAlbums);
       console.log(res);
     } catch (e) {
-      console.log(e.response.data);
+      console.log(e);
     }
   };
   const removePost = async () => {
@@ -291,6 +312,8 @@ const MusicCard = ({
           ''
         )}
         <ModalForPosts
+          update={update}
+          setUpdate={setUpdate}
           album_id={album_id}
           track_id={track_id}
           album_title={album_title}

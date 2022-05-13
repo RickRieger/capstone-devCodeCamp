@@ -7,8 +7,21 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import ShareIcon from '@mui/icons-material/Share';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 import axios from 'axios';
-const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
+import ModalForPosts from '../ModalForPosts/ModalForPosts';
+const TableRows = ({
+  row,
+  index,
+  togglePlayMusic,
+  playMusic,
+  album,
+  albumInfo,
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const auth = useAuth();
   const [user, token] = auth;
   const saveTrackToFavorites = async () => {
@@ -26,9 +39,27 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
           Authorization: 'Bearer ' + token,
         },
       });
+      toast('🦄 Album saved!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log(res.data);
     } catch (e) {
-      console.log(e.response.data);
+      toast('Album already saved!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      console.log(e.response);
     }
   };
   return (
@@ -46,7 +77,7 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
       <TableCell align='right'>
         <ShareIcon
           sx={{ color: 'rgb(0, 0, 0)' }}
-          onClick={() => saveTrackToFavorites()}
+          onClick={() => handleOpen()}
         />
       </TableCell>
       <TableCell align='right'>
@@ -84,6 +115,17 @@ const TableRows = ({ row, index, togglePlayMusic, playMusic, album }) => {
           ''
         )}
       </TableCell>
+      <ModalForPosts
+        album_id={albumInfo.id}
+        track_id={row.id}
+        album_title={albumInfo.title}
+        track_title={row.title}
+        artist_name={albumInfo.artist.name}
+        album_image={albumInfo.cover_big}
+        preview_track={row.preview}
+        handleClose={handleClose}
+        open={open}
+      />
     </TableRow>
   );
 };

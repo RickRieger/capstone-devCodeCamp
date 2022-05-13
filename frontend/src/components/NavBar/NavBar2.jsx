@@ -10,8 +10,7 @@ import { circularProgressClasses } from '@mui/material';
 
 const Navbar = () => {
   const [query, setQuery] = useState('');
-  const { logoutUser, user, token, musicCollection, setMusicCollection } =
-    useContext(AuthContext);
+  const { logoutUser, user, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -65,7 +64,7 @@ const Navbar = () => {
 
         {user ? (
           <>
-            {/* <li className='center-nav-cluster'>
+            <li className='center-nav-cluster'>
               <Autocomplete
                 id='asynchronous-demo'
                 style={{ width: 300 }}
@@ -116,14 +115,6 @@ const Navbar = () => {
                   />
                 )}
               />
-            </li> */}
-            <li>
-              <NavLink
-                to='/profile'
-                className={({ isActive }) => (isActive ? 'active' : undefined)}
-              >
-                <p>profile</p>
-              </NavLink>
             </li>
             <li>
               <NavLink
@@ -133,34 +124,14 @@ const Navbar = () => {
                 <p>saved music</p>
               </NavLink>
             </li>
-
-            {musicCollection ? (
-              <li>
-                <NavLink
-                  onClick={() => setMusicCollection(null)}
-                  className={({ isActive }) =>
-                    isActive ? 'active' : undefined
-                  }
-                  to='/search-music'
-                >
-                  {' '}
-                  <p>new search</p>
-                </NavLink>
-              </li>
-            ) : (
-              <li>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive ? 'active' : undefined
-                  }
-                  to='/search-music'
-                >
-                  {' '}
-                  <p>search</p>
-                </NavLink>
-              </li>
-            )}
-
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? 'active' : undefined)}
+                to='/search-music'
+              >
+                <p>search music</p>
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to='/'
