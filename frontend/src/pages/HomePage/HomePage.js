@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
 
 import { Tooltip } from '@mui/material';
-
+import './Home.css';
 const HomePage = () => {
   const [feed, setFeed] = useState(null);
   const [friends, setFriends] = useState(null);
@@ -50,7 +50,6 @@ const HomePage = () => {
       console.log(e.data);
     }
   };
-  console.log(friends);
 
   if (feed) {
     return (
@@ -76,7 +75,7 @@ const HomePage = () => {
                 preview_track={result.preview_track}
                 album_title={result.album_title}
                 artist_name={result.artist_name}
-                key={index}
+                key={result.id}
                 track_title={result.track_title}
                 album_id={result.album_id}
                 showPlayer={result.showPlayer}
@@ -88,37 +87,26 @@ const HomePage = () => {
           })}
         </div>
         <div className='container-friends'>
-          <div className='friends'>
+          <div>
             <h1 style={{ fontSize: '3rem', marginBottom: '3rem' }}>Friends</h1>
-            <Tooltip
-              title='Delete'
-              placement='right'
-              style={{ backgroundColor: 'red' }}
-            >
-              <div className='friends'>
-                <CardHeader
-                  className='friends'
-                  avatar={
-                    <Avatar
-                      alt='Remy Sharp'
-                      src='/static/images/avatar/1.jpg'
+            {friends &&
+              friends.map((friend) => {
+                return (
+                  <div className='friends' key={friend.id}>
+                    {' '}
+                    <CardHeader
+                      avatar={
+                        <Avatar
+                          alt={friend.first_name + ' ' + friend.last_name}
+                          src='/static/images/avatar/1.jpg'
+                          sx={{ backgroundColor: 'aqua', color: 'black' }}
+                        />
+                      }
+                      title={friend.first_name + ' ' + friend.last_name}
                     />
-                  }
-                  title={'rick'}
-                />
-              </div>
-            </Tooltip>
-
-            <CardHeader
-              avatar={
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
-              }
-              title={'bob'}
-            />
-            <CardHeader
-              avatar={<Avatar alt='Frank' src='/static/images/avatar/1.jpg' />}
-              title={'frank'}
-            />
+                  </div>
+                );
+              })}
           </div>
         </div>
         {/* <h1>Home Page for {user.username}!</h1> */}

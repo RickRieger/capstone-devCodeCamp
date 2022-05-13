@@ -11,6 +11,7 @@
 html {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  font-size: 20px;
 }
 body {
   background: rgb(26, 26, 26);
@@ -19,14 +20,10 @@ body {
   color: rgb(215, 229, 229);
 }
 
-p {
-  font-size: 20px;
-}
-
 button {
   background-color: transparent;
-  border: 2px solid steelblue;
-  color: steelblue;
+  border: 2px solid rgb(236, 254, 105);
+  color: rgb(236, 254, 105);
   font-size: 1rem;
   font-family: inherit;
   max-width: 100px;
@@ -35,8 +32,9 @@ button {
 
 button:hover {
   cursor: pointer;
-  color: white;
-  background-color: steelblue;
+  color: black;
+  font-weight: bolder;
+  background-color: rgb(236, 254, 105);
 }
 
 .container {
@@ -108,8 +106,12 @@ button:hover {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   gap: 1rem;
+  margin-top: 10rem;
+}
+input {
+  background-color: rgb(112, 112, 111);
 }
 
 .form input {
@@ -167,4 +169,12 @@ html {
   width: 0;
   background: transparent;
   border: none;
+}
+.album-info {
+  color: rgb(79, 211, 244);
+  font-weight: bolder;
+}
+.album-info-info {
+  color: rgb(48, 79, 255);
+  font-weight: bolder;
 }

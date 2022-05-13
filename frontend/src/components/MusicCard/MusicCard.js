@@ -12,7 +12,7 @@ import axios from 'axios';
 import ModalForPosts from '../ModalForPosts/ModalForPosts';
 import CloseIcon from '@mui/icons-material/Close';
 import Avatar from '@mui/material/Avatar';
-
+import { CardHeader } from '@mui/material';
 const MusicCard = ({
   album_image,
   album_id,
@@ -49,10 +49,6 @@ const MusicCard = ({
   const auth = useAuth();
   const [user, token] = auth;
   const handleNavigate = () => {
-    if (setUpDateSearch) {
-      setUpDateSearch('');
-    }
-
     navigate(`/album-info/${album_id}`);
   };
   const saveAlbumToFavorites = async () => {
@@ -131,17 +127,16 @@ const MusicCard = ({
             fontSize: '1rem',
           }}
         >
-          <Avatar
-            sx={{
-              width: 56,
-              height: 56,
-
-              marginBottom: '1rem',
-            }}
+          <CardHeader
+            avatar={
+              <Avatar
+                alt={postFrom.first_name + ' ' + postFrom.last_name}
+                src='/static/images/avatar/1.jpg'
+                sx={{ backgroundColor: 'aqua', color: 'black' }}
+              />
+            }
+            title={postFrom.first_name + ' ' + postFrom.last_name}
           />
-          <div style={{ verticleAlign: 'middle', marginLeft: '1rem' }}>
-            {postFrom.first_name} {postFrom.last_name}
-          </div>
         </div>
         <div style={{ display: 'flex', padding: '1rem' }}>{post}</div>
         <img

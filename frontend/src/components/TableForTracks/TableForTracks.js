@@ -29,9 +29,18 @@ const TableForTracks = ({ albumInfo }) => {
     <TableContainer
       component={Paper}
       sx={{ maxWidth: 800, maxHeight: 400, overflow: 'scroll' }}
+      style={{
+        color: 'white',
+        position: 'fixed',
+        margin: 'auto',
+        inset: '0',
+      }}
     >
       <Table
-        sx={{ maxWidth: 800, backgroundColor: 'rgb(108, 108, 108)' }}
+        sx={{
+          maxWidth: 800,
+          backgroundColor: 'rgb(108, 108, 108)',
+        }}
         aria-label='simple table'
       >
         <TableHead>

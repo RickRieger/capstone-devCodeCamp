@@ -75,14 +75,13 @@ def search_users(request, query=''):
     if request.method == 'GET':
         
        
-        idCollection = []
-        friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
-        for user in friendIds:
-            idCollection.append(user.id)
+        # idCollection = []
+        # friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+        # for user in friendIds:
+        #     idCollection.append(user.id)
 
         qs = User.objects.all()
         for user in query.split():
-          user.friend = True
           qs = qs.filter( Q(first_name__icontains = user) | Q(last_name__icontains = user))
           print(user)
        

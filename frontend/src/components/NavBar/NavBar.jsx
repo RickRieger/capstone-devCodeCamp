@@ -1,32 +1,52 @@
-import React, { useEffect } from 'react';
-import { useContext, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate, Link, navLink, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './NavBar.css';
 import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { circularProgressClasses } from '@mui/material';
 
-const Navbar = ({ upDateSearch, setUpDateSearch }) => {
-  const [query, setQuery] = useState(upDateSearch);
-  const { logoutUser, user } = useContext(AuthContext);
+const Navbar = () => {
+  const [query, setQuery] = useState('');
+  const { logoutUser, user, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setQuery(upDateSearch);
-  }, [upDateSearch]);
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = () => {
-    if (query.length === 0) {
-      alert('please enter a proper search query!');
-      return;
-    }
-    navigate('/search-music');
-    setUpDateSearch(query);
-  };
+  useEffect(() => {
+    setLoading(true);
+    (async () => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/friends/search/${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const users = response.status === 200 ? await response.json() : [];
+
+      setOptions(
+        users.map((user) => ({
+          ...user,
+          name: `${user.first_name} ${user.last_name}`,
+        }))
+      );
+      setLoading(false);
+      setOpen(true);
+    })();
+
+    return () => {};
+  }, [query]);
 
   return (
     <div className='navBar'>
       <ul>
-        <li className='brand'>
+        <li className='brand' style={{ alignItems: 'center' }}>
           <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>
             <img
               src='/clipart1638227.png'
@@ -35,55 +55,111 @@ const Navbar = ({ upDateSearch, setUpDateSearch }) => {
             />
           </Link>
         </li>
-        <li className='center-nav-cluster'>
-          <input
-            type='text'
-            value={query}
-            className='search-field'
-            placeholder='Search...'
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSearch();
-              }
-            }}
-          />
-          <SearchIcon
-            className='search-button'
-            onClick={() => handleSearch()}
-          />
-        </li>
-        <li>
-          <Link
-            to='/favorites'
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            <p>saved music</p>
-          </Link>
-        </li>
-        <li>
-          <Link
-            activeClassName='active'
-            to='/search-music'
-            style={{ textDecoration: 'none', color: 'white' }}
-          >
-            <p>search music</p>
-          </Link>
-        </li>
-        <li>
-          <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>
-            <p>home</p>
-          </Link>
+        <li
+          className='logo-text'
+          style={{ fontFamily: "'Tajawal', sans-serif" }}
+        >
+          Music with Friends
         </li>
 
         {user ? (
-          <div className='right-nav' onClick={logoutUser}>
-            <li>Logout</li>
-          </div>
+          <>
+            <li className='center-nav-cluster'>
+              <Autocomplete
+                id='asynchronous-demo'
+                style={{ width: 300 }}
+                open={open}
+                onOpen={() => {
+                  setOpen(true);
+                }}
+                onClose={() => {
+                  setOpen(false);
+                }}
+                onChange={(event, value, reason) => {
+                  console.log('**** event: ', event);
+                  console.log('**** value: ', value);
+                  console.log('**** reason: ', reason);
+                  if (reason === 'select-option') {
+                    console.log(value.id);
+                  }
+                }}
+                getOptionSelected={(option, value) =>
+                  option.name === value.name
+                }
+                getOptionLabel={(option) => option.name}
+                options={options}
+                loading={loading}
+                renderInput={(params) => (
+                  <TextField
+                    style={{
+                      color: 'white',
+                    }}
+                    {...params}
+                    label='Search Users'
+                    variant='outlined'
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {loading ? (
+                            <CircularProgress color='inherit' size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </li>
+            <li>
+              <NavLink
+                to='/favorites'
+                className={({ isActive }) => (isActive ? 'active' : undefined)}
+              >
+                <p>saved music</p>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => (isActive ? 'active' : undefined)}
+                to='/search-music'
+              >
+                <p>search music</p>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to='/'
+                className={({ isActive }) => (isActive ? 'active' : undefined)}
+              >
+                <p>home</p>
+              </NavLink>
+            </li>
+          </>
         ) : (
-          <div className='right-nav' onClick={() => navigate('/login')}>
+          ''
+        )}
+
+        {user ? (
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active' : undefined)}
+            to='/login'
+            onClick={logoutUser}
+          >
+            <li>Logout</li>
+          </NavLink>
+        ) : (
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active' : undefined)}
+            to='/login'
+          >
             <li>Login</li>
-          </div>
+          </NavLink>
         )}
       </ul>
     </div>

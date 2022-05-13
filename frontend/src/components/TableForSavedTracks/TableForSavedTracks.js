@@ -26,7 +26,13 @@ const TableForSavedTracks = ({ savedTracks }) => {
     <TableContainer
       component={Paper}
       sx={{ maxWidth: 800, maxHeight: 400, overflow: 'scroll' }}
-      style={{ color: 'white' }}
+      style={{
+        color: 'white',
+        position: 'fixed',
+        margin: 'auto',
+        inset: '0',
+        fontWeight: '2rem',
+      }}
     >
       <Table
         sx={{

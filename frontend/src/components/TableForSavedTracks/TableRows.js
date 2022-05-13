@@ -59,12 +59,12 @@ const TableRows = ({
       <TableCell align='right'>
         {playMusic ? (
           <StopCircleIcon
-            sx={{ color: 'rgb(0, 0, 0)' }}
+            sx={{ color: '#8b0000' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         ) : (
           <PlayCircleIcon
-            sx={{ color: 'rgb(0, 0, 0)' }}
+            sx={{ color: 'green' }}
             onClick={() => togglePlayMusic(!playMusic)}
           />
         )}

@@ -82,6 +82,9 @@ a:hover {
   }
 }
 
+.friends:hover {
+  background-color: rgb(173, 173, 173);
+  color: black;
+}
 .friends {
-  background-color: aqua;
 }
