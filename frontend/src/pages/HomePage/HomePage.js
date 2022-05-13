@@ -1,19 +1,24 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MusicCard from '../../components/MusicCard/MusicCard';
 import useAuth from '../../hooks/useAuth';
 import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
 import './Home.css';
+
 const HomePage = () => {
-  const [feed, setFeed] = useState(null);
-  const [friends, setFriends] = useState(null);
   const auth = useAuth();
   const [user, token] = auth;
+  const [feed, setFeed] = useState(null);
+  const [friends, setFriends] = useState(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     getAllPostsFromFriends();
     getAllFriends();
   }, []);
+
   const toggleShowPlayer = (index, showPlayer) => {
     const newFeed = feed.map((feed, feedIndex) => {
       if (feedIndex === index) {
@@ -23,7 +28,7 @@ const HomePage = () => {
     });
     setFeed(newFeed);
   };
-
+  console.log(token);
   const getAllPostsFromFriends = async () => {
     try {
       const res = await axios.get('http://127.0.0.1:8000/api/posts/', {
@@ -31,7 +36,8 @@ const HomePage = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      setFeed(res.data);
+      let response = res.data.sort(() => Math.random() - 0.5);
+      setFeed(response);
     } catch (e) {
       console.log(e.data);
     }
@@ -53,7 +59,6 @@ const HomePage = () => {
     return (
       <div className='container-main'>
         <div className='container-cards'>
-          {' '}
           {feed.map((result, index) => {
             return (
               <MusicCard
@@ -90,8 +95,13 @@ const HomePage = () => {
             {friends &&
               friends.map((friend) => {
                 return (
-                  <div className='friends' key={friend.id}>
-                    {' '}
+                  <div
+                    className='friends'
+                    key={friend.id}
+                    onClick={() => {
+                      navigate(`/profile/${friend.id}`);
+                    }}
+                  >
                     <CardHeader
                       avatar={
                         <Avatar

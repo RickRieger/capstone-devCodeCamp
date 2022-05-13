@@ -39,7 +39,7 @@ const TableRows = ({
           Authorization: 'Bearer ' + token,
         },
       });
-      toast('🦄 Album saved!', {
+      toast('\ud83d\ude01 Album saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -50,7 +50,7 @@ const TableRows = ({
       });
       console.log(res.data);
     } catch (e) {
-      toast('Album already saved!', {
+      toast('\ud83d\ude01Album already saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,

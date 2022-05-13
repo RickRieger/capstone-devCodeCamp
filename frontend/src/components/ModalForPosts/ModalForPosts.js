@@ -25,8 +25,6 @@ const style = {
 };
 
 const ModalForPosts = ({
-  setUpdate,
-  update,
   album_title,
   album_image,
   album_id,
@@ -34,7 +32,7 @@ const ModalForPosts = ({
   track_title,
   artist_name,
   preview_track,
-  handleClose,
+  closeModal,
   open,
 }) => {
   const auth = useAuth();
@@ -64,6 +62,7 @@ const ModalForPosts = ({
       );
 
       navigate('/');
+      closeModal();
       console.log(res.data);
     } catch (e) {
       console.log(e);
@@ -72,7 +71,7 @@ const ModalForPosts = ({
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={closeModal}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
@@ -80,7 +79,7 @@ const ModalForPosts = ({
         <div style={{ padding: '.5rem' }}>
           <CloseIcon
             style={{ color: 'red', float: 'right' }}
-            onClick={() => handleClose()}
+            onClick={() => closeModal()}
           />
         </div>
 

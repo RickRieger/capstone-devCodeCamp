@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
@@ -24,7 +24,6 @@ const MusicCard = ({
   track_title,
   showPlayer,
   toggleShowPlayer,
-  setUpDateSearch,
   savedAlbums,
   albums,
   setAlbums,
@@ -37,9 +36,6 @@ const MusicCard = ({
   feed,
   setFeed,
 }) => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const album = {
     album_id: album_id,
     title: album_title,
@@ -48,12 +44,12 @@ const MusicCard = ({
     preview: preview_track,
     preview_title: track_title,
   };
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const auth = useAuth();
   const [user, token] = auth;
-  const handleNavigate = () => {
-    navigate(`/album-info/${album_id}`);
-  };
   const saveAlbumToFavorites = async () => {
     try {
       const res = await axios.post('http://127.0.0.1:8000/api/albums/', album, {
@@ -61,7 +57,7 @@ const MusicCard = ({
           Authorization: 'Bearer ' + token,
         },
       });
-      toast('🦄 Album saved!', {
+      toast('\ud83d\ude01 Album saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -72,7 +68,7 @@ const MusicCard = ({
       });
       console.log(res.data);
     } catch (e) {
-      toast('Album already saved!', {
+      toast('\ud83d\ude01Album already saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -154,6 +150,7 @@ const MusicCard = ({
                 alt={postFrom.first_name + ' ' + postFrom.last_name}
                 src='/static/images/avatar/1.jpg'
                 sx={{ backgroundColor: 'aqua', color: 'black' }}
+                onClick={() => navigate(`/profile/${user.id}`)}
               />
             }
             title={postFrom.first_name + ' ' + postFrom.last_name}
@@ -184,7 +181,10 @@ const MusicCard = ({
               save album
             </button>
 
-            <button className='icon-buttons' onClick={() => handleNavigate()}>
+            <button
+              className='icon-buttons'
+              onClick={() => navigate(`/album-info/${album_id}`)}
+            >
               <InfoIcon />
               get album info
             </button>
@@ -231,7 +231,7 @@ const MusicCard = ({
           artist_name={artist_name}
           album_image={album_image}
           preview_track={preview_track}
-          handleClose={handleClose}
+          closeModal={handleClose}
           open={open}
         />
       </div>
@@ -272,7 +272,10 @@ const MusicCard = ({
               </button>
             )}
 
-            <button className='icon-buttons' onClick={() => handleNavigate()}>
+            <button
+              className='icon-buttons'
+              onClick={() => navigate(`/album-info/${album_id}`)}
+            >
               <InfoIcon />
               get album info
             </button>

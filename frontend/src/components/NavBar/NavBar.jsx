@@ -119,7 +119,7 @@ const Navbar = () => {
             </li> */}
             <li>
               <NavLink
-                to='/profile'
+                to={`/profile/${user.id}`}
                 className={({ isActive }) => (isActive ? 'active' : undefined)}
               >
                 <p>profile</p>

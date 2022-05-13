@@ -44,6 +44,14 @@ function App() {
           }
         />
         <Route
+          path='/profile/:id'
+          element={
+            <PrivateRoute>
+              <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path='/album-info/:albumId'
           element={
             <PrivateRoute>
@@ -51,14 +59,7 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path='/profiles/:userId'
-          element={
-            <PrivateRoute>
-              <AlbumInfo />
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path='/favorites'
           element={
