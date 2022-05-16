@@ -67,7 +67,7 @@ const SavedMusic = () => {
               artist_name={album.artist}
               key={album.album_id}
               track_title={album.preview_title}
-              album_id={album.id}
+              album_id={album.album_id}
               showPlayer={album.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);

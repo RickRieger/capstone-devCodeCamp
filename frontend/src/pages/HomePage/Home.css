@@ -81,10 +81,3 @@ a:hover {
     width: 10rem;
   }
 }
-
-.friends:hover {
-  background-color: rgb(173, 173, 173);
-  color: black;
-}
-.friends {
-}

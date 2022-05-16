@@ -11,7 +11,6 @@ import { Button } from '@mui/material';
 
 const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
   const [token] = useAuth();
-  // let [musicCollection, setMusicCollection] = useState(null);
   const [index, setIndex] = useState(0);
   const [queryString, setQueryString] = useState(null);
   const { user, getAllResultsFromQuery, musicCollection, setMusicCollection } =

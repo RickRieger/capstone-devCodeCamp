@@ -13,7 +13,8 @@ import SavedMusic from './pages/SavedMusic/SavedMusic';
 import SearchResults from './pages/SearchResults/SearchResults';
 import UserProfile from './pages/UserProfile/UserProfile';
 // Component Imports
-import Navbar from './components/NavBar/NavBar';
+import NavBar from './components/NavBar/NavBar';
+
 import Footer from './components/Footer/Footer';
 
 // Util Imports
@@ -22,10 +23,15 @@ import { useState } from 'react';
 import { Fragment } from 'react';
 
 function App() {
+  const [left, setLeft] = useState(false);
+
+  const openDrawer = () => {
+    setLeft(true);
+  };
   const [upDateSearch, setUpDateSearch] = useState('');
   return (
-    <Fragment>
-      <Navbar upDateSearch={upDateSearch} setUpDateSearch={setUpDateSearch} />
+    <div className='main-container'>
+      <NavBar upDateSearch={upDateSearch} setUpDateSearch={setUpDateSearch} />
       <Routes>
         <Route
           path='/'
@@ -44,7 +50,15 @@ function App() {
           }
         />
         <Route
-          path='/profile/:id'
+          path='/profile/:pk'
+          element={
+            <PrivateRoute>
+              <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/my-profile/:pk'
           element={
             <PrivateRoute>
               <UserProfile />
@@ -83,7 +97,7 @@ function App() {
         draggable
         pauseOnHover
       />
-    </Fragment>
+    </div>
   );
 }
 

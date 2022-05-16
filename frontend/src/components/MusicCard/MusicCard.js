@@ -150,7 +150,7 @@ const MusicCard = ({
                 alt={postFrom.first_name + ' ' + postFrom.last_name}
                 src='/static/images/avatar/1.jpg'
                 sx={{ backgroundColor: 'aqua', color: 'black' }}
-                onClick={() => navigate(`/profile/${user.id}`)}
+                onClick={() => navigate(`/profile/${postFrom.id}`)}
               />
             }
             title={postFrom.first_name + ' ' + postFrom.last_name}

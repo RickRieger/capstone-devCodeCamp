@@ -18,31 +18,31 @@ const Navbar = () => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    (async () => {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/friends/search/${query}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const users = response.status === 200 ? await response.json() : [];
+  // useEffect(() => {
+  //   setLoading(true);
+  //   (async () => {
+  //     const response = await fetch(
+  //       `http://127.0.0.1:8000/api/friends/search/${query}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     const users = response.status === 200 ? await response.json() : [];
 
-      setOptions(
-        users.map((user) => ({
-          ...user,
-          name: `${user.first_name} ${user.last_name}`,
-        }))
-      );
-      setLoading(false);
-      setOpen(true);
-    })();
+  //     setOptions(
+  //       users.map((user) => ({
+  //         ...user,
+  //         name: `${user.first_name} ${user.last_name}`,
+  //       }))
+  //     );
+  //     setLoading(false);
+  //     setOpen(true);
+  //   })();
 
-    return () => {};
-  }, [query]);
+  //   return () => {};
+  // }, [query]);
 
   return (
     <div className='navBar'>
@@ -119,7 +119,7 @@ const Navbar = () => {
             </li> */}
             <li>
               <NavLink
-                to={`/profile/${user.id}`}
+                to={`/my-profile/${user.id}`}
                 className={({ isActive }) => (isActive ? 'active' : undefined)}
               >
                 <p>profile</p>

@@ -44,11 +44,14 @@ const HomePage = () => {
   };
   const getAllFriends = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/friends/', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
+      const res = await axios.get(
+        `http://127.0.0.1:8000/api/friends/${user.id}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
       setFriends(res.data);
     } catch (e) {
       console.log(e.data);
