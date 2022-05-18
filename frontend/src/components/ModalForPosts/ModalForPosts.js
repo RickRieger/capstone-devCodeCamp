@@ -39,7 +39,7 @@ const ModalForPosts = ({
   const [user, token] = auth;
   const [post, setPost] = useState('');
   const postToBackEnd = {
-    post: post,
+    body: post,
     album_id: album_id,
     track_id: track_id,
     album_title: album_title,

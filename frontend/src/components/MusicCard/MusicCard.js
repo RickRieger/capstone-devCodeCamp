@@ -14,6 +14,11 @@ import ModalForPosts from '../ModalForPosts/ModalForPosts';
 import CloseIcon from '@mui/icons-material/Close';
 import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
+import moment from 'moment';
+import Comments from '../../components/Comments/Comments';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+
 const MusicCard = ({
   setUpdate,
   update,
@@ -34,8 +39,14 @@ const MusicCard = ({
   post_id,
   postFrom,
   feed,
+  created_on,
   setFeed,
+  comments,
+  likes,
+  disLikes,
+  getAllPostsFromFriends,
 }) => {
+  console.log(post_id);
   const album = {
     album_id: album_id,
     title: album_title,
@@ -115,10 +126,33 @@ const MusicCard = ({
       console.log(e);
     }
   };
+  const handleLike = async (likeOrDisLike) => {
+    try {
+      let res = await axios.get(
+        `http://127.0.0.1:8000/api/posts/${likeOrDisLike}/${post_id}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      getAllPostsFromFriends();
+    } catch (e) {
+      toast('\ud83d\ude01Already Liked or disLiked this post!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
 
   if (is_feed) {
     return (
-      <div className='event-card' style={{ width: '30rem' }}>
+      <div className='feed-card'>
         <div style={{ padding: '.5rem' }}>
           {user.id == postFrom.id ? (
             <div
@@ -126,11 +160,10 @@ const MusicCard = ({
                 removePost();
               }}
             >
-              {' '}
-              <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                delete post
-              </span>
-              <CloseIcon style={{ color: 'red', float: 'right' }} />
+              <span className={'delete-text'}>delete post</span>
+              <div className='close-icon'>
+                <CloseIcon className={'close-icon'} />
+              </div>
             </div>
           ) : (
             <div style={{ height: '1rem' }}></div>
@@ -145,24 +178,56 @@ const MusicCard = ({
           }}
         >
           <CardHeader
+            titleTypographyProps={{ variant: 'h5' }}
             avatar={
               <Avatar
                 alt={postFrom.first_name + ' ' + postFrom.last_name}
                 src='/static/images/avatar/1.jpg'
-                sx={{ backgroundColor: 'aqua', color: 'black' }}
+                sx={{
+                  backgroundColor: 'aqua',
+                  color: 'black',
+                }}
                 onClick={() => navigate(`/profile/${postFrom.id}`)}
               />
             }
             title={postFrom.first_name + ' ' + postFrom.last_name}
           />
         </div>
-        <div style={{ display: 'flex', padding: '1rem' }}>{post}</div>
+        <div style={{ display: 'flex', padding: '1rem', fontSize: '1.5rem' }}>
+          {post}
+        </div>
         <img
           style={{ width: '100%' }}
           src={album_image}
           alt='album or song cover'
         />
         <div className='event-details'>
+          <div className='like-container'>
+            <div className='time-date'>
+              <div style={{ display: 'flex', color: 'green' }}>Posted: </div>
+              {moment(created_on).format('MMMM Do YYYY, h:mm:ss a')}
+            </div>
+            <div>
+              <ThumbUpOutlinedIcon onClick={() => handleLike('like')} />
+              <span style={{ marginLeft: '10px', verticalAlign: 'super' }}>
+                {likes.length}
+              </span>
+              <ThumbDownAltOutlinedIcon
+                onClick={() => handleLike('disLike')}
+                style={{ marginLeft: '20px' }}
+              />
+              <span
+                style={{
+                  marginLeft: '10px',
+                  verticalAlign: 'super',
+                  marginRight: '20px',
+                }}
+              >
+                {disLikes.length}
+              </span>
+            </div>
+          </div>
+
           <p
             style={{
               fontSize: '.8rem',
@@ -207,6 +272,12 @@ const MusicCard = ({
               )}
             </button>
           </div>
+
+          <Comments
+            post_id={post_id}
+            comments={comments}
+            getAllPostsFromFriends={getAllPostsFromFriends}
+          />
         </div>
         {showPlayer ? (
           <ReactAudioPlayer

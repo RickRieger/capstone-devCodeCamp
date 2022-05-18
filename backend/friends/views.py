@@ -1,3 +1,4 @@
+from collections import UserString
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
@@ -39,14 +40,12 @@ def friend_request(request, pk=''):
       elif item.requestTo == request.user:
         friends.append(item.requestor)
     serializer = UsersSerializer(friends, many=True)
-    # for item in serializer.data:
-    #   print(item)
     return Response(serializer.data,status=status.HTTP_200_OK)   
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def friend_request_pending(request):
+def friend_request_pending(request, pk):
   if request.method == 'GET':
     friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'requested') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'requested').only('requestor', 'requestTo')
     pendingFriendsSerializer = FriendshipStatusSerializer(friendIds, many=True)
@@ -56,7 +55,6 @@ def friend_request_pending(request):
         friends.append(item.requestTo)
       elif item.requestTo == request.user:
         friends.append(item.requestor)
-    # serializer = UsersSerializer(friends, many=True)
     return Response(pendingFriendsSerializer.data, status=status.HTTP_200_OK)   
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
@@ -73,22 +71,17 @@ def get_all_users(request):
 @permission_classes([IsAuthenticated])
 def search_users(request, query=''):
     if request.method == 'GET':
-        
-       
-        # idCollection = []
-        # friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
-        # for user in friendIds:
-        #     idCollection.append(user.id)
-
         qs = User.objects.all()
         for user in query.split():
           qs = qs.filter( Q(first_name__icontains = user) | Q(last_name__icontains = user))
-          print(user)
-       
-
-
-        # filtered_users = User.objects.filter(first_name__icontains = query ) | User.objects.filter(last_name__icontains = query )
-        
         serializer = UsersSerializer(qs, many=True) 
         return Response(serializer.data, status=status.HTTP_200_OK)       
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user(request, pk):
+    if request.method == 'GET':
+        user = get_object_or_404(User, pk=pk)
+        serializer = UsersSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK) 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

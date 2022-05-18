@@ -34,6 +34,7 @@ const UserProfile = () => {
           },
         }
       );
+
       setProfileInfo(res.data);
     } catch (e) {
       console.log(e);

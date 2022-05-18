@@ -28,7 +28,7 @@ const HomePage = () => {
     });
     setFeed(newFeed);
   };
-  console.log(token);
+
   const getAllPostsFromFriends = async () => {
     try {
       const res = await axios.get('http://127.0.0.1:8000/api/posts/', {
@@ -36,12 +36,13 @@ const HomePage = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      let response = res.data.sort(() => Math.random() - 0.5);
-      setFeed(response);
+      // let response = res.data.sort(() => Math.random() - 0.5);
+      setFeed(res.data);
     } catch (e) {
-      console.log(e.data);
+      console.log(e);
     }
   };
+
   const getAllFriends = async () => {
     try {
       const res = await axios.get(
@@ -57,7 +58,7 @@ const HomePage = () => {
       console.log(e.data);
     }
   };
-
+  console.log(feed);
   if (feed) {
     return (
       <div className='container-main'>
@@ -65,12 +66,17 @@ const HomePage = () => {
           {feed.map((result, index) => {
             return (
               <MusicCard
+                getAllPostsFromFriends={getAllPostsFromFriends}
+                comments={result.comments}
+                likes={result.likes}
+                disLikes={result.disLikes}
+                created_on={result.created_on}
                 feed={feed}
                 setFeed={setFeed}
-                postFrom={result.user}
+                postFrom={result.author}
                 is_feed={true}
-                person_who_posted={result.user}
-                post={result.post}
+                person_who_posted={result.author}
+                post={result.body}
                 post_id={result.id}
                 album_image={
                   result.album_image
