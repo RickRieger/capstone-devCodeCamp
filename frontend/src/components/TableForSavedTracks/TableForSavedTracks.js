@@ -34,14 +34,15 @@ const TableForSavedTracks = ({ savedTracks }) => {
         fontWeight: '2rem',
       }}
     >
-      <Table
-        sx={{
-          maxWidth: 800,
-          backgroundColor: 'rgb(173 173 173)',
-        }}
-        aria-label='simple table'
-      >
-        <TableHead>
+      <Table aria-label='simple table' stickyHeader>
+        <TableHead
+          style={{
+            position: 'sticky',
+            left: 0,
+            background: 'white',
+            zIndex: 800,
+          }}
+        >
           <TableRow>
             <TableCell>Track-Title</TableCell>
             <TableCell align='left'>Album</TableCell>

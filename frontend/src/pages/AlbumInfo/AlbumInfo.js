@@ -44,7 +44,7 @@ const AlbumInfo = () => {
           className='info'
           style={{
             position: 'fixed',
-            top: '11rem',
+            top: '9rem',
             left: '50%',
             transform: 'translate(-50%, 0)',
             fontSize: '2rem',

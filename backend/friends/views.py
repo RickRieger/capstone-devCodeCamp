@@ -12,49 +12,63 @@ from django.db.models import Q
 from difflib import get_close_matches
 
 
-
-@api_view(['POST', 'PATCH', 'GET'])
+@api_view(['POST', 'PATCH', 'GET', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def friend_request(request, pk=''):
   print('User', f"{int(request.user.id)} {request.user.email} {request.user.username}")       
   if request.method == 'POST':
+    print('*******************************')
+    requestor = get_object_or_404(User, pk = request.user.id)
+    requestTo = get_object_or_404(User, pk = pk)
     serializer = FriendshipStatusSerializer(data=request.data)
     if serializer.is_valid():
-      serializer.save()
+      serializer.save(requestor= requestor, requestTo=requestTo)
       return Response(serializer.data, status=status.HTTP_200_OK)      
   if request.method == 'PATCH':
     friend_request = get_object_or_404(FriendshipStatus, pk=pk)
     serializer = FriendshipStatusSerializer(friend_request, data=request.data, partial=True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    userThatSentFriendRequest = User.objects.filter(id=1)
-    print(serializer.data['requestor'])
     return Response(serializer.data,status=status.HTTP_200_OK)
   if request.method == 'GET':
-    friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
-    # Brett
+    # if pk != '':
+    #   print('**************nopk*****************')
+
+    #   friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+    #   friends = []
+    #   for item in friendIds:
+    #     if item.requestor == request.user:
+    #       friends.append(item.requestTo)
+    #     elif item.requestTo == request.user:
+    #       friends.append(item.requestor)
+    #   serializer = UsersSerializer(friends, many=True)
+   
+    print('*************pk******************', pk)
+    user = get_object_or_404(User, pk = pk)
+    friendIds = FriendshipStatus.objects.filter(requestor = pk).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = pk).filter(status = 'accepted').only('requestor', 'requestTo')
     friends = []
     for item in friendIds:
-      if item.requestor == request.user:
+      if item.requestor == user:
         friends.append(item.requestTo)
-      elif item.requestTo == request.user:
+      elif item.requestTo == user:
         friends.append(item.requestor)
     serializer = UsersSerializer(friends, many=True)
-    return Response(serializer.data,status=status.HTTP_200_OK)   
+    return Response(serializer.data,status=status.HTTP_200_OK)  
+  if request.method == 'DELETE':
+    friend = get_object_or_404(User, pk=pk)
+    friendRequest = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+    for item in friendRequest:
+      if item.requestTo == friend or item.requestor == friend:
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
   return Response(status=status.HTTP_400_BAD_REQUEST)
   
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def friend_request_pending(request, pk):
+def friend_request_pending(request):
   if request.method == 'GET':
-    friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'requested') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'requested').only('requestor', 'requestTo')
-    pendingFriendsSerializer = FriendshipStatusSerializer(friendIds, many=True)
-    friends = []
-    for item in friendIds:
-      if item.requestor == request.user:
-        friends.append(item.requestTo)
-      elif item.requestTo == request.user:
-        friends.append(item.requestor)
+    friendIds = FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'requested').only('requestor')
+    pendingFriendsSerializer = FriendshipStatusSerializer(friendIds, many=True) 
     return Response(pendingFriendsSerializer.data, status=status.HTTP_200_OK)   
   return Response(status=status.HTTP_400_BAD_REQUEST)
   

@@ -13,6 +13,8 @@ li {
 .username-text {
   font-size: medium;
   font-weight: bold;
+  color: rgb(199, 199, 199);
+  margin-bottom: 5px;
 }
 
 .date-text {
@@ -45,4 +47,7 @@ li {
 }
 .show-hide-text {
   font-size: 1.5rem;
+}
+.css-9yxvmi {
+  margin-top: 0px !important;
 }

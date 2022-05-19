@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(setUserObject(decodedUser));
   const [isServerError, setIsServerError] = useState(false);
   const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState(null);
 
   const registerUser = async (registerData) => {
     try {
@@ -109,6 +110,8 @@ export const AuthProvider = ({ children }) => {
     getAllResultsFromQuery,
     setMusicCollection,
     musicCollection,
+    searchResults,
+    setSearchResults,
   };
 
   return (

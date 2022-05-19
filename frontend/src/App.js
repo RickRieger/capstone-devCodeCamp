@@ -50,7 +50,7 @@ function App() {
           }
         />
         <Route
-          path='/profile/:pk'
+          path='/profile/:id'
           element={
             <PrivateRoute>
               <UserProfile />
@@ -58,7 +58,7 @@ function App() {
           }
         />
         <Route
-          path='/my-profile/:pk'
+          path='/my-profile/:id'
           element={
             <PrivateRoute>
               <UserProfile />

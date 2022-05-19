@@ -46,7 +46,6 @@ const MusicCard = ({
   disLikes,
   getAllPostsFromFriends,
 }) => {
-  console.log(post_id);
   const album = {
     album_id: album_id,
     title: album_title,
@@ -154,8 +153,11 @@ const MusicCard = ({
     return (
       <div className='feed-card'>
         <div style={{ padding: '.5rem' }}>
-          {user.id == postFrom.id ? (
+          <span>
             <div
+              style={{
+                visibility: user.id == postFrom.id ? 'visible' : 'hidden',
+              }}
               onClick={() => {
                 removePost();
               }}
@@ -165,42 +167,29 @@ const MusicCard = ({
                 <CloseIcon className={'close-icon'} />
               </div>
             </div>
-          ) : (
-            <div style={{ height: '1rem' }}></div>
-          )}
+
+            <CardHeader
+              titleTypographyProps={{ variant: 'h5' }}
+              avatar={
+                <Avatar
+                  alt={postFrom.first_name + ' ' + postFrom.last_name}
+                  src='/static/images/avatar/1.jpg'
+                  sx={{
+                    backgroundColor: 'aqua',
+                    color: 'black',
+                  }}
+                  onClick={() => navigate(`/profile/${postFrom.id}`)}
+                />
+              }
+              title={postFrom.first_name + ' ' + postFrom.last_name}
+            />
+          </span>
         </div>
-        <div
-          style={{
-            padding: '1rem',
-            display: 'flex',
-            verticalAlign: 'text-top',
-            fontSize: '1rem',
-          }}
-        >
-          <CardHeader
-            titleTypographyProps={{ variant: 'h5' }}
-            avatar={
-              <Avatar
-                alt={postFrom.first_name + ' ' + postFrom.last_name}
-                src='/static/images/avatar/1.jpg'
-                sx={{
-                  backgroundColor: 'aqua',
-                  color: 'black',
-                }}
-                onClick={() => navigate(`/profile/${postFrom.id}`)}
-              />
-            }
-            title={postFrom.first_name + ' ' + postFrom.last_name}
-          />
-        </div>
+
         <div style={{ display: 'flex', padding: '1rem', fontSize: '1.5rem' }}>
           {post}
         </div>
-        <img
-          style={{ width: '100%' }}
-          src={album_image}
-          alt='album or song cover'
-        />
+        <img src={album_image} alt='album or song cover' />
         <div className='event-details'>
           <div className='like-container'>
             <div className='time-date'>
@@ -228,15 +217,6 @@ const MusicCard = ({
             </div>
           </div>
 
-          <p
-            style={{
-              fontSize: '.8rem',
-              textAlign: 'center',
-              visibility: showPlayer ? 'visible' : 'hidden',
-            }}
-          >
-            "{track_title}"
-          </p>
           <div className='row-links'>
             <button
               className='icon-buttons'
@@ -272,6 +252,15 @@ const MusicCard = ({
               )}
             </button>
           </div>
+          <p
+            style={{
+              fontSize: '1rem',
+              textAlign: 'center',
+              visibility: showPlayer ? 'visible' : 'hidden',
+            }}
+          >
+            {`NowPlaying: "${track_title}"`}
+          </p>
 
           <Comments
             post_id={post_id}
@@ -395,7 +384,7 @@ const MusicCard = ({
           artist_name={artist_name}
           album_image={album_image}
           preview_track={preview_track}
-          handleClose={handleClose}
+          closeModal={handleClose}
           open={open}
         />
       </div>

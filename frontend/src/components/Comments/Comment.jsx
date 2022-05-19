@@ -69,9 +69,6 @@ function Comment(props) {
     <div>
       <div className='comment-header-container'>
         <div className='username-text'>{author.username}</div>
-        <div className='date-text'>
-          {moment(created).startOf('hour').fromNow()}
-        </div>
       </div>
       <h3 className={'comments'}> {comment} </h3>
 

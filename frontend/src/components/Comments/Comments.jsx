@@ -11,16 +11,10 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 const ariaLabel = { 'aria-label': 'description' };
 const Comments = ({ post_id, comments, getAllPostsFromFriends }) => {
-  const params = useParams();
-  console.log(post_id);
   const [showComments, setShowComments] = useState(false);
-
   const auth = useAuth();
   const [user, token] = auth;
-
   const [userComment, setUserComment] = useState([]);
-
-  useEffect(() => {}, []);
 
   const postComment = async (callBack) => {
     let body = {
@@ -99,7 +93,10 @@ const Comments = ({ post_id, comments, getAllPostsFromFriends }) => {
           COMMENT
         </Button>
       </Box>
-      <div className='reply-container'>
+      <div
+        className='reply-container'
+        style={{ visibility: comments.length > 0 ? 'visible' : 'hidden' }}
+      >
         <div onClick={() => setShowComments(!showComments)}>
           {showComments ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
           {showComments ? (

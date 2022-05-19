@@ -8,6 +8,7 @@ ul {
 li {
   font-size: 1.25rem;
   text-align: center;
+  color: rgb(135, 250, 250);
 }
 
 .navBar {
@@ -101,6 +102,7 @@ li {
   font-size: 2.5rem;
   font-family: 'Roboto', sans-serif;
   font-family: 'Tajawal', sans-serif;
+  color: rgb(135, 250, 250);
 }
 
 .MuiAutocomplete-listbox {
@@ -129,4 +131,28 @@ li {
 
 .MuiOutlinedInput-inputAdornedEnd {
   color: white;
+}
+.search-users {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 200px;
+  background-color: rgb(46, 200, 200);
+}
+.search-users > li {
+  color: black;
+  margin-top: 10px;
+}
+.search-users > li:hover {
+  color: black;
+  margin-top: 10px;
+  background-color: rgba(15, 15, 255, 0.699);
+  width: 100%;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: rgb(135, 250, 250) !important;
+}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(135, 250, 250) !important;
 }

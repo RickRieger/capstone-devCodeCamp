@@ -42,6 +42,7 @@
 .friends {
   border: 1px solid grey;
   width: 300px;
+  margin-bottom: 10px;
   border-radius: 10px;
   display: flex;
   position: relative;
@@ -59,15 +60,53 @@
   height: 50px;
   background-color: rgb(100, 94, 94);
   padding: 5px;
+  border-radius: 5px;
   position: absolute;
 }
 .dropdown:hover {
-  background-color: rgb(119, 119, 119);
+  background-color: rgb(214, 211, 211);
+  color: black;
   cursor: pointer;
 }
 .profile-name-button {
   display: flex;
   justify-content: space-between;
+}
+.search-results {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+}
+.search-results > button {
+  display: inline;
+  border-radius: 25px;
+  color: white;
+  border: 1px solid white;
+  max-width: fit-content;
+  padding: 5px 20px;
+}
+/* .search-results > button:active {
+  color: blue;
+  background-color: grey;
+} */
+.search-results > button:hover {
+  color: black;
+  background-color: white;
+  border: black;
+}
+.search-results-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.clear-search-button {
+  display: inline;
+  max-width: fit-content;
+  padding: 5px 20px;
+  margin-left: 20px;
+}
+.clear-search-button:hover {
+  color: white;
 }
 @media only screen and (max-width: 900px) {
   .profile-container {

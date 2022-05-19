@@ -58,7 +58,7 @@ const HomePage = () => {
       console.log(e.data);
     }
   };
-  console.log(feed);
+
   if (feed) {
     return (
       <div className='container-main'>

@@ -1,48 +1,41 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate, Link, navLink, NavLink } from 'react-router-dom';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './NavBar.css';
-import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { circularProgressClasses } from '@mui/material';
 
 const Navbar = () => {
   const [query, setQuery] = useState('');
-  const { logoutUser, user, token, musicCollection, setMusicCollection } =
-    useContext(AuthContext);
+  const {
+    logoutUser,
+    user,
+    token,
+    musicCollection,
+    setMusicCollection,
+    searchResults,
+    setSearchResults,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/friends/search/${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const users = response.status === 200 ? await response.json() : [];
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   (async () => {
-  //     const response = await fetch(
-  //       `http://127.0.0.1:8000/api/friends/search/${query}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     const users = response.status === 200 ? await response.json() : [];
-
-  //     setOptions(
-  //       users.map((user) => ({
-  //         ...user,
-  //         name: `${user.first_name} ${user.last_name}`,
-  //       }))
-  //     );
-  //     setLoading(false);
-  //     setOpen(true);
-  //   })();
-
-  //   return () => {};
-  // }, [query]);
+      setSearchResults(users);
+      navigate(`/my-profile/${user.id}`);
+      setQuery('');
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className='navBar'>
@@ -65,58 +58,20 @@ const Navbar = () => {
 
         {user ? (
           <>
-            {/* <li className='center-nav-cluster'>
-              <Autocomplete
-                id='asynchronous-demo'
-                style={{ width: 300 }}
-                open={open}
-                onOpen={() => {
-                  setOpen(true);
-                }}
-                onClose={() => {
-                  setOpen(false);
-                }}
-                onChange={(event, value, reason) => {
-                  console.log('**** event: ', event);
-                  console.log('**** value: ', value);
-                  console.log('**** reason: ', reason);
-                  if (reason === 'select-option') {
-                    console.log(value.id);
+            <div className='center-nav-cluster'>
+              <TextField
+                id='outlined-basic'
+                label='Search People...'
+                variant='outlined'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSubmit(e);
                   }
                 }}
-                getOptionSelected={(option, value) =>
-                  option.name === value.name
-                }
-                getOptionLabel={(option) => option.name}
-                options={options}
-                loading={loading}
-                renderInput={(params) => (
-                  <TextField
-                    style={{
-                      color: 'white',
-                    }}
-                    {...params}
-                    label='Search Users'
-                    variant='outlined'
-                    value={query}
-                    onChange={(e) => {
-                      setQuery(e.target.value);
-                    }}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <>
-                          {loading ? (
-                            <CircularProgress color='inherit' size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    }}
-                  />
-                )}
               />
-            </li> */}
+            </div>
             <li>
               <NavLink
                 to={`/my-profile/${user.id}`}

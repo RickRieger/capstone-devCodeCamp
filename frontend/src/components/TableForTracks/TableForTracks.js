@@ -42,8 +42,16 @@ const TableForTracks = ({ albumInfo }) => {
           backgroundColor: 'rgb(108, 108, 108)',
         }}
         aria-label='simple table'
+        stickyHeader
       >
-        <TableHead>
+        <TableHead
+          style={{
+            position: 'sticky',
+            left: 0,
+            background: 'white',
+            zIndex: 800,
+          }}
+        >
           <TableRow style={{ backgroundColor: 'rgb(173 173 173)' }}>
             <TableCell>Track-Title</TableCell>
             <TableCell align='center'>Album</TableCell>

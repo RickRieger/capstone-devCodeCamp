@@ -50,6 +50,7 @@ const ModalForPosts = ({
   };
   const navigate = useNavigate();
   const sendPostToTheBackEnd = async () => {
+    console.log(postToBackEnd);
     try {
       const res = await axios.post(
         'http://127.0.0.1:8000/api/posts/',

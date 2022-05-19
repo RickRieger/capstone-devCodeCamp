@@ -9,7 +9,7 @@ class Post(models.Model):
   likes = models.ManyToManyField(User, blank=True, related_name='likes')
   disLikes = models.ManyToManyField(User, blank=True, related_name='dislikes')
   album_id = models.IntegerField()
-  track_id = models.IntegerField()
+  track_id = models.IntegerField(blank=True, null=True)
   album_title = models.CharField(max_length=255)
   track_title = models.CharField(max_length=255)
   artist_name = models.CharField(max_length=255)

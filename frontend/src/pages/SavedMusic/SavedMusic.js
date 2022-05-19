@@ -22,7 +22,7 @@ const SavedMusic = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      setTracks(res.data);
+      setTracks(res.data.reverse());
     } catch (e) {
       console.log(e.data);
     }
@@ -34,8 +34,7 @@ const SavedMusic = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      setAlbums(res.data);
-      console.log(res.data);
+      setAlbums(res.data.reverse());
     } catch (e) {
       console.log(e.data);
     }
@@ -67,7 +66,7 @@ const SavedMusic = () => {
               artist_name={album.artist}
               key={album.album_id}
               track_title={album.preview_title}
-              album_id={album.album_id}
+              album_id={album.id}
               showPlayer={album.showPlayer}
               toggleShowPlayer={(valueToSet) => {
                 toggleShowPlayer(index, valueToSet);
