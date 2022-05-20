@@ -30,7 +30,7 @@ const Navbar = () => {
       const users = response.status === 200 ? await response.json() : [];
 
       setSearchResults(users);
-      navigate(`/my-profile/${user.id}`);
+      navigate(`/profile/${user.id}`);
       setQuery('');
     } catch (e) {
       console.log(e);
@@ -49,12 +49,18 @@ const Navbar = () => {
             />
           </Link>
         </li>
-        <li
-          className='logo-text'
-          style={{ fontFamily: "'Tajawal', sans-serif" }}
-        >
-          Music with Friends
-        </li>
+        {user && (
+          <li
+            className='logo-text'
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            Music with Friends
+          </li>
+        )}
+
+        <span style={{ fontSize: '1rem' }}>
+          {user && `Welcome back ${user.first_name}!`}
+        </span>
 
         {user ? (
           <>
@@ -74,7 +80,7 @@ const Navbar = () => {
             </div>
             <li>
               <NavLink
-                to={`/my-profile/${user.id}`}
+                to={`/profile/${user.id}`}
                 className={({ isActive }) => (isActive ? 'active' : undefined)}
               >
                 <p>profile</p>
@@ -126,7 +132,15 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          ''
+          <li
+            className='logo-text'
+            style={{
+              fontFamily: "'Tajawal', sans-serif",
+              marginRight: '450px',
+            }}
+          >
+            Music with Friends
+          </li>
         )}
 
         {user ? (

@@ -9,7 +9,6 @@ const AlbumInfo = () => {
   useEffect(() => {
     getAllAlbumInfo();
   }, []);
-  console.log(albumInfo);
   const getAllAlbumInfo = async () => {
     const options = {
       method: 'GET',
@@ -22,7 +21,7 @@ const AlbumInfo = () => {
     try {
       let result = await axios.request(options);
       result = result.data;
-      console.log(result);
+
       setAlbumInfo(result);
     } catch (e) {
       console.log(e.message);

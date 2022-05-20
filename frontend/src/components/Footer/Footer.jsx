@@ -7,7 +7,7 @@ const Footer = () => {
       {/* <Box sx={{ width: '100%' }}>
         <LinearProgress />
       </Box> */}
-      <p>Copyright © 2022</p>{' '}
+      <p>Copyright RiegerCodes © 2022</p>{' '}
     </footer>
   );
 };

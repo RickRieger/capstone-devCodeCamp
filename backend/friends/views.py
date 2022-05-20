@@ -56,7 +56,9 @@ def friend_request(request, pk=''):
     return Response(serializer.data,status=status.HTTP_200_OK)  
   if request.method == 'DELETE':
     friend = get_object_or_404(User, pk=pk)
-    friendRequest = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
+    print('*******pk:', pk)
+    print('*******user:', request.user.username)
+    friendRequest = FriendshipStatus.objects.filter(requestor = request.user.id) | FriendshipStatus.objects.filter(requestTo = request.user.id).only('requestor', 'requestTo')
     for item in friendRequest:
       if item.requestTo == friend or item.requestor == friend:
         item.delete()

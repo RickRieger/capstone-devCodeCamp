@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [isServerError, setIsServerError] = useState(false);
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState(null);
+  const [feed, setFeed] = useState(null);
 
   const registerUser = async (registerData) => {
     try {
@@ -100,6 +101,19 @@ export const AuthProvider = ({ children }) => {
       console.log(e.message);
     }
   };
+  const getAllPostsFromFriends = async () => {
+    try {
+      const res = await axios.get('http://127.0.0.1:8000/api/posts/', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      // let response = res.data.sort(() => Math.random() - 0.5);
+      setFeed(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const contextData = {
     user,
     token,
@@ -112,6 +126,9 @@ export const AuthProvider = ({ children }) => {
     musicCollection,
     searchResults,
     setSearchResults,
+    feed,
+    setFeed,
+    getAllPostsFromFriends,
   };
 
   return (

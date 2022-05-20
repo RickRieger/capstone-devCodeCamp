@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import Box from '@mui/material/Box';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const style = {
   position: 'absolute',
@@ -35,6 +36,8 @@ const ModalForPosts = ({
   closeModal,
   open,
 }) => {
+  const { getAllPostsFromFriends, getAll } = useContext(AuthContext);
+
   const auth = useAuth();
   const [user, token] = auth;
   const [post, setPost] = useState('');
@@ -102,7 +105,7 @@ const ModalForPosts = ({
           id='modal-modal-description'
           sx={{ mt: 4, padding: 2, color: 'white', fontSize: '2rem' }}
         >
-          <div>
+          <>
             <Avatar
               sx={{
                 width: 56,
@@ -112,7 +115,7 @@ const ModalForPosts = ({
               }}
             />
             {user.first_name} {user.last_name}
-          </div>
+          </>
 
           <TextField
             id='standard-basic'
@@ -157,7 +160,11 @@ const ModalForPosts = ({
                 color: 'white',
               },
             }}
-            onClick={() => sendPostToTheBackEnd()}
+            onClick={() => {
+              sendPostToTheBackEnd();
+              navigate('/');
+              getAllPostsFromFriends();
+            }}
           >
             Post
           </Button>

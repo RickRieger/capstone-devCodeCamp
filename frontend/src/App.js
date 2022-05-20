@@ -57,14 +57,14 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
+        {/* <Route
           path='/my-profile/:id'
           element={
             <PrivateRoute>
               <UserProfile />
             </PrivateRoute>
           }
-        />
+        /> */}
         <Route
           path='/album-info/:albumId'
           element={

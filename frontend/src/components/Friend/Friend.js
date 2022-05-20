@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { Avatar } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Tooltip } from '@material-ui/core';
 import { CardHeader } from '@mui/material';
 import axios from 'axios';
 const Friend = ({
@@ -12,15 +14,16 @@ const Friend = ({
   getAllFriendsOfProfile,
   getPendingFriendRequests,
 }) => {
-  const [canShowUnfriend, setCanShowUnfriend] = useState(false);
   const [user, token] = useAuth();
+  const navigate = useNavigate();
 
   const handleFriendRequest = async (friend) => {
-    setCanShowUnfriend(false);
-
     let bool = window.confirm(
       `Are you sure you want to accept this friend request?`
     );
+    if (!bool) {
+      return;
+    }
     try {
       let res = await axios.patch(
         `http://127.0.0.1:8000/api/friends/${request.id}`,
@@ -41,10 +44,8 @@ const Friend = ({
     }
   };
   const handleUnfriend = async () => {
-    console.log(request);
-    setCanShowUnfriend(false);
     let bool = window.confirm(`Are you sure you want to delete this friend?`);
-    if (!bool) {
+    if (bool) {
       return;
     }
     try {
@@ -63,9 +64,13 @@ const Friend = ({
       console.log(e);
     }
   };
-  console.log(friends);
+
   return (
-    <div className='friends' key={friend.id}>
+    <div
+      className='friends'
+      key={friend.id}
+      onClick={() => navigate(`/profile/${friend.id}`)}
+    >
       <CardHeader
         avatar={
           <Avatar
@@ -76,21 +81,17 @@ const Friend = ({
         }
         title={friend.first_name + ' ' + friend.last_name}
       />
-      <div className='more-icon'>
-        <MoreHorizIcon onClick={() => setCanShowUnfriend(!canShowUnfriend)} />
-        {canShowUnfriend && (
-          <div
-            className='dropdown'
+      <Tooltip title={isRequests ? 'accept?' : 'un-friend?'}>
+        <div className='more-icon'>
+          <MoreHorizIcon
             onClick={
               isRequests
                 ? () => handleFriendRequest(friend)
                 : () => handleUnfriend()
             }
-          >
-            {isRequests ? 'accept?' : 'un-friend?'}
-          </div>
-        )}
-      </div>
+          />
+        </div>
+      </Tooltip>
     </div>
   );
 };

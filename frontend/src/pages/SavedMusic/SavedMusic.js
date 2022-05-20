@@ -53,7 +53,6 @@ const SavedMusic = () => {
       <div style={{ marginTop: '400px' }}>
         {<TableForSavedTracks savedTracks={tracks} />}
         {albums.map((album, index) => {
-          console.log(album);
           return (
             <MusicCard
               album_image={

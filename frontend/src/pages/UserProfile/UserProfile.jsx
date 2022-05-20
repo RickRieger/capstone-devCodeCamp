@@ -53,7 +53,6 @@ const UserProfile = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(res.data);
       setPendingFriendRequests(res.data);
     } catch (e) {
       console.log(e);
@@ -70,6 +69,7 @@ const UserProfile = () => {
           },
         }
       );
+
       setProfileFriends(res.data);
     } catch (e) {
       console.log(e);
@@ -99,15 +99,14 @@ const UserProfile = () => {
       console.log(e.data);
     }
   };
+  //####################CHECKS TO SEE IF FRIEND###########################
   let isFriend;
   if (profileFriends && loggedInUsersFriends) {
     isFriend = loggedInUsersFriends.some((f) => f.id === profileInfo.id);
   }
-  console.log(profileFriends);
 
   const requestFriendship = async () => {
     try {
-      console.log('*************', token, params.id);
       const res = await axios.post(
         `http://127.0.0.1:8000/api/friends/${params.id}`,
         {},
@@ -150,6 +149,28 @@ const UserProfile = () => {
       console.log(e);
     }
   };
+  const handleDeleteRequest = async (id) => {
+    let bool = window.confirm(
+      `Are you sure you want to delete this friend request?`
+    );
+    if (!bool) {
+      return;
+    }
+    try {
+      let res = await axios.delete(
+        `http://127.0.0.1:8000/api/friends/${id}`,
+
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      navigate(`/profile/${params.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div className='profile-container'>
       {searchResults && (
@@ -170,117 +191,137 @@ const UserProfile = () => {
                 return (
                   <button
                     key={p.id}
-                    onClick={() => navigate(`/my-profile/${p.id}`)}
+                    onClick={() => navigate(`/profile/${p.id}`)}
                   >{`${p.first_name} ${' '} ${p.last_name}`}</button>
                 );
               })}
           </div>
         </>
       )}
-      <div className='profile-name-button'>
-        <span>
+
+      <div className='center-profile-container'>
+        <div className='friends-profile-page'>
           <h1>
-            {profileInfo && user.id === profileInfo.id
-              ? 'My profile'
-              : profileInfo && profileInfo.first_name + profileInfo.last_name}
+            {profileInfo && user.id === profileInfo.id ? 'Friend-Requests' : ''}
           </h1>
-        </span>
-        <span>
-          {profileInfo && user.id === profileInfo.id ? (
-            ''
-          ) : (
-            <div>
-              {isFriend ? (
-                <span>
-                  {' '}
-                  <CheckIcon />
-                  friends
-                </span>
+          {profileInfo && user.id === profileInfo.id && (
+            <>
+              {pendingFriendRequests &&
+                pendingFriendRequests.map((request) => {
+                  return (
+                    <div key={request.requestor.id}>
+                      <Friend
+                        request={request}
+                        isRequests={true}
+                        friend={request.requestor}
+                        friends={profileFriends}
+                        getAllFriendsOfProfile={getAllFriendsOfProfile}
+                        getPendingFriendRequests={getPendingFriendRequests}
+                      />
+                      <Button
+                        className='delete-friend-button'
+                        variant='outlined'
+                        onClick={() => {
+                          handleDeleteRequest(request.requestor.id);
+                        }}
+                      >
+                        delete{' '}
+                      </Button>
+                    </div>
+                  );
+                })}
+            </>
+          )}
+        </div>
+
+        <div className='profile-image-container'>
+          <div className='profile-name-button'>
+            <span>
+              <h1>
+                {profileInfo && user.id === profileInfo.id
+                  ? 'My profile'
+                  : profileInfo &&
+                    profileInfo.first_name + profileInfo.last_name}
+              </h1>
+            </span>
+            <span>
+              {profileInfo && user.id === profileInfo.id ? (
+                ''
               ) : (
-                <span>not friends</span>
+                <div>
+                  {isFriend ? (
+                    <span>
+                      {' '}
+                      <CheckIcon />
+                      friends
+                    </span>
+                  ) : (
+                    <span>not friends</span>
+                  )}
+                </div>
+              )}
+            </span>
+          </div>
+          <img src='https://source.unsplash.com/random' alt='' />
+          <div className='avatar-bg'>
+            <Avatar
+              id='user-profile-avatar'
+              alt='Remy Sharp'
+              src={avatarImage}
+            />
+          </div>
+          {profileInfo && user.id === profileInfo.id ? (
+            <div></div>
+          ) : (
+            <div className='container-userprofile-buttons'>
+              {isFriend ? (
+                <Button
+                  style={{
+                    position: 'absolute',
+                    right: '0',
+                    marginTop: '10px',
+                  }}
+                  variant='contained'
+                  onClick={() => handleUnfriend()}
+                >
+                  unfriend
+                </Button>
+              ) : (
+                <Button
+                  style={{
+                    position: 'absolute',
+                    right: '0',
+                    marginTop: '10px',
+                  }}
+                  variant='contained'
+                  onClick={() => requestFriendship()}
+                >
+                  addfriend
+                </Button>
               )}
             </div>
           )}
-        </span>
-      </div>
-
-      <div className='profile-image-container'>
-        <img src='https://source.unsplash.com/random' alt='' />
-        <div className='avatar-bg'>
-          <Avatar id='user-profile-avatar' alt='Remy Sharp' src={avatarImage} />
         </div>
-      </div>
 
-      {profileInfo && user.id === profileInfo.id ? (
-        <div></div>
-      ) : (
-        <div>
-          {isFriend ? (
-            <Button
-              style={{ position: 'absolute', right: '0', marginTop: '10px' }}
-              variant='contained'
-              onClick={() => handleUnfriend()}
-            >
-              unfriend
-            </Button>
-          ) : (
-            <Button
-              style={{ position: 'absolute', right: '0', marginTop: '10px' }}
-              variant='contained'
-              onClick={() => requestFriendship()}
-            >
-              addfriend
-            </Button>
-          )}
-        </div>
-      )}
-
-      <h1 style={{ textAlign: 'center', marginTop: '100px' }}>
-        {profileInfo && user.id === profileInfo.id
-          ? 'My Friends'
-          : `${profileInfo && profileInfo.first_name}'s Friends`}
-      </h1>
-
-      <div className='friends-container'>
-        {profileFriends &&
-          profileFriends.map((friend) => {
-            return (
-              <Friend
-                friend={friend}
-                friends={profileFriends}
-                key={friend.id}
-                getAllFriendsOfProfile={getAllFriendsOfProfile}
-              />
-            );
-          })}
-      </div>
-      <h1
-        style={{
-          textAlign: 'center',
-          marginTop: '100px',
-          marginBottom: '10px',
-        }}
-      >
-        {profileInfo && user.id === profileInfo.id ? 'Friend-Requests' : ''}
-      </h1>
-      {
-        <div className='friends-container'>
-          {pendingFriendRequests &&
-            pendingFriendRequests.map((request) => {
+        <div className='friends-profile-page'>
+          <h1>
+            {profileInfo && user.id === profileInfo.id
+              ? 'My Friends'
+              : `${profileInfo && profileInfo.first_name}'s Friends`}
+          </h1>
+          {profileFriends &&
+            profileFriends.map((friend) => {
               return (
                 <Friend
-                  request={request}
-                  isRequests={true}
-                  friend={request.requestor}
+                  friend={friend}
                   friends={profileFriends}
-                  key={request.requestor.id}
+                  key={friend.id}
                   getAllFriendsOfProfile={getAllFriendsOfProfile}
-                  getPendingFriendRequests={getPendingFriendRequests}
                 />
               );
             })}
         </div>
-      }
+      </div>
     </div>
   );
 };

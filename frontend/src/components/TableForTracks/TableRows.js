@@ -39,7 +39,7 @@ const TableRows = ({
           Authorization: 'Bearer ' + token,
         },
       });
-      toast('\ud83d\ude01 Album saved!', {
+      toast('\ud83d\ude01 Track saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -48,9 +48,8 @@ const TableRows = ({
         draggable: true,
         progress: undefined,
       });
-      console.log(res.data);
     } catch (e) {
-      toast('\ud83d\ude01Album already saved!', {
+      toast('\ud83d\ude01Track already saved!', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -123,7 +122,7 @@ const TableRows = ({
         artist_name={albumInfo.artist.name}
         album_image={albumInfo.cover_big}
         preview_track={row.preview}
-        handleClose={handleClose}
+        closeModal={handleClose}
         open={open}
       />
     </TableRow>

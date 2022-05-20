@@ -1,19 +1,19 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MusicCard from '../../components/MusicCard/MusicCard';
 import useAuth from '../../hooks/useAuth';
 import Avatar from '@mui/material/Avatar';
 import { CardHeader } from '@mui/material';
+import AuthContext from '../../context/AuthContext';
 import './Home.css';
 
 const HomePage = () => {
   const auth = useAuth();
   const [user, token] = auth;
-  const [feed, setFeed] = useState(null);
   const [friends, setFriends] = useState(null);
   const navigate = useNavigate();
-
+  const { feed, setFeed, getAllPostsFromFriends } = useContext(AuthContext);
   useEffect(() => {
     getAllPostsFromFriends();
     getAllFriends();
@@ -27,20 +27,6 @@ const HomePage = () => {
       return { ...feed, showPlayer: false };
     });
     setFeed(newFeed);
-  };
-
-  const getAllPostsFromFriends = async () => {
-    try {
-      const res = await axios.get('http://127.0.0.1:8000/api/posts/', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      // let response = res.data.sort(() => Math.random() - 0.5);
-      setFeed(res.data);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const getAllFriends = async () => {
