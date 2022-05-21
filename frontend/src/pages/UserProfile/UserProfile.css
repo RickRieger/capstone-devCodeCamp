@@ -62,6 +62,7 @@
   position: absolute;
   right: 5px;
   top: 5px;
+  z-index: 99;
 }
 .more-icon:hover {
   cursor: pointer;
@@ -125,7 +126,44 @@
 .css-1rwt2y5-MuiButtonBase-root-MuiButton-root:hover {
   color: rgb(100, 161, 247);
 }
+.btn-group button {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
 
+  border: 1px solid white; /* Green border */
+  color: white; /* White text */
+  padding: 5px 10px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  border-radius: 5px;
+  margin-bottom: 5px;
+  width: fit-content;
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: white;
+  color: black;
+}
+.btn-delete button:hover {
+  background-color: rgb(141, 45, 45);
+  color: black;
+}
+.btn-group button {
+  width: fit-content;
+  display: inline-block;
+}
 @media only screen and (max-width: 900px) {
   .profile-container {
     margin-top: 20%;

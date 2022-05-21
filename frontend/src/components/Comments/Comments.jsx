@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import './Comments.css';
 import Comment from './Comment';
@@ -22,7 +21,7 @@ const Comments = ({ post_id, comments, getAllPostsFromFriends }) => {
     };
     console.log(body);
     try {
-      let response = await axios.post(
+      await axios.post(
         `http://127.0.0.1:8000/api/posts/comment/${post_id}`,
         body,
         {

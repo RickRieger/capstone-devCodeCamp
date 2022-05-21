@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
-import moment from 'moment';
 import './Comments.css';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -13,20 +12,13 @@ function Comment(props) {
   useEffect(() => {}, []);
   const auth = useAuth();
   const [user, token] = auth;
-  const {
-    comment,
-    commentId,
-    author,
-    replies,
-    created,
-    getAllPostsFromFriends,
-  } = props;
+  const { comment, commentId, author, replies, getAllPostsFromFriends } = props;
   const [reply, setReply] = useState('');
   const [replyBool, setReplyBool] = useState(false);
   const [showReplyBool, setShowReplyBool] = useState(false);
 
   async function postReply() {
-    if (reply.length == 0) {
+    if (reply.length === 0) {
       alert('need to make a valid reply!');
       return;
     }
@@ -35,7 +27,7 @@ function Comment(props) {
       author: user.id,
     };
     try {
-      let response = await axios.post(
+      await axios.post(
         `http://127.0.0.1:8000/api/posts/reply/${commentId}`,
         body,
         {

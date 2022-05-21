@@ -102,7 +102,7 @@ const MusicCard = ({
           },
         }
       );
-      let newAlbums = albums.filter((album) => album.id != album_id);
+      let newAlbums = albums.filter((album) => album.id !== album_id);
       setAlbums(newAlbums);
       console.log(res);
     } catch (e) {
@@ -111,15 +111,12 @@ const MusicCard = ({
   };
   const removePost = async () => {
     try {
-      const res = await axios.delete(
-        `http://127.0.0.1:8000/api/posts/${post_id}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
-      let newFeed = feed.filter((post) => post.id != post_id);
+      await axios.delete(`http://127.0.0.1:8000/api/posts/${post_id}`, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      let newFeed = feed.filter((post) => post.id !== post_id);
       setFeed(newFeed);
     } catch (e) {
       console.log(e);
@@ -127,7 +124,7 @@ const MusicCard = ({
   };
   const handleLike = async (likeOrDisLike) => {
     try {
-      let res = await axios.get(
+      await axios.get(
         `http://127.0.0.1:8000/api/posts/${likeOrDisLike}/${post_id}`,
         {
           headers: {
@@ -156,7 +153,7 @@ const MusicCard = ({
           <span>
             <div
               style={{
-                visibility: user.id == postFrom.id ? 'visible' : 'hidden',
+                visibility: user.id === postFrom.id ? 'visible' : 'hidden',
               }}
               onClick={() => {
                 removePost();

@@ -19,19 +19,11 @@ import Footer from './components/Footer/Footer';
 
 // Util Imports
 import PrivateRoute from './utils/PrivateRoute';
-import { useState } from 'react';
-import { Fragment } from 'react';
 
 function App() {
-  const [left, setLeft] = useState(false);
-
-  const openDrawer = () => {
-    setLeft(true);
-  };
-  const [upDateSearch, setUpDateSearch] = useState('');
   return (
     <div className='main-container'>
-      <NavBar upDateSearch={upDateSearch} setUpDateSearch={setUpDateSearch} />
+      <NavBar />
       <Routes>
         <Route
           path='/'
@@ -57,14 +49,6 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* <Route
-          path='/my-profile/:id'
-          element={
-            <PrivateRoute>
-              <UserProfile />
-            </PrivateRoute>
-          }
-        /> */}
         <Route
           path='/album-info/:albumId'
           element={

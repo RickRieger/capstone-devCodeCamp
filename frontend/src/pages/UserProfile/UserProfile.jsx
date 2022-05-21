@@ -129,14 +129,15 @@ const UserProfile = () => {
       console.log(e);
     }
   };
-  const handleUnfriend = async () => {
+  const handleUnfriend = async (id) => {
     let bool = window.confirm(`Are you sure you want to delete this friend?`);
     if (!bool) {
       return;
     }
+    debugger;
     try {
       let res = await axios.delete(
-        `http://127.0.0.1:8000/api/friends/${profileInfo.id}`,
+        `http://127.0.0.1:8000/api/friends/${id}`,
 
         {
           headers: {
@@ -144,6 +145,7 @@ const UserProfile = () => {
           },
         }
       );
+
       navigate(`/profile/${params.id}`);
     } catch (e) {
       console.log(e);
@@ -167,6 +169,32 @@ const UserProfile = () => {
         }
       );
       navigate(`/profile/${params.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const handleFriendRequest = async (requestId) => {
+    let bool = window.confirm(
+      `Are you sure you want to accept this friend request?`
+    );
+    if (!bool) {
+      return;
+    }
+    try {
+      let res = await axios.patch(
+        `http://127.0.0.1:8000/api/friends/${requestId}`,
+        {
+          status: 'Accepted',
+        },
+
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      getPendingFriendRequests();
+      getAllFriendsOfProfile();
     } catch (e) {
       console.log(e);
     }
@@ -209,7 +237,7 @@ const UserProfile = () => {
               {pendingFriendRequests &&
                 pendingFriendRequests.map((request) => {
                   return (
-                    <div key={request.requestor.id}>
+                    <div key={request.id}>
                       <Friend
                         request={request}
                         isRequests={true}
@@ -217,16 +245,21 @@ const UserProfile = () => {
                         friends={profileFriends}
                         getAllFriendsOfProfile={getAllFriendsOfProfile}
                         getPendingFriendRequests={getPendingFriendRequests}
+                        handleUnfriend={handleUnfriend}
                       />
-                      <Button
-                        className='delete-friend-button'
-                        variant='outlined'
-                        onClick={() => {
-                          handleDeleteRequest(request.requestor.id);
-                        }}
-                      >
-                        delete{' '}
-                      </Button>
+                      <div className='btn-group btn-accept'>
+                        <button onClick={() => handleFriendRequest(request.id)}>
+                          Accept
+                        </button>
+                        <button
+                          className='btn-delete'
+                          onClick={() =>
+                            handleDeleteRequest(request.requestor.id)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
@@ -282,7 +315,7 @@ const UserProfile = () => {
                     marginTop: '10px',
                   }}
                   variant='contained'
-                  onClick={() => handleUnfriend()}
+                  onClick={() => handleUnfriend(profileInfo.id)}
                 >
                   unfriend
                 </Button>
@@ -312,12 +345,20 @@ const UserProfile = () => {
           {profileFriends &&
             profileFriends.map((friend) => {
               return (
-                <Friend
-                  friend={friend}
-                  friends={profileFriends}
-                  key={friend.id}
-                  getAllFriendsOfProfile={getAllFriendsOfProfile}
-                />
+                <div key={friend.id}>
+                  <Friend
+                    friend={friend}
+                    friends={profileFriends}
+                    getAllFriendsOfProfile={getAllFriendsOfProfile}
+                  />
+                  {user.id === profileInfo.id && (
+                    <div className='btn-group btn-delete'>
+                      <button onClick={() => handleDeleteRequest(friend.id)}>
+                        Unfriend
+                      </button>
+                    </div>
+                  )}
+                </div>
               );
             })}
         </div>

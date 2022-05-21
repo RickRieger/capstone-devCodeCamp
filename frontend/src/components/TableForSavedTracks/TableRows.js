@@ -7,6 +7,7 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useAuth from '../../hooks/useAuth';
+import ModalForPosts from '../ModalForPosts/ModalForPosts';
 import axios from 'axios';
 const TableRows = ({
   row,

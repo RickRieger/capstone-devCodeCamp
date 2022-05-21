@@ -18,7 +18,6 @@ const style = {
   transform: 'translate(-50%, -50%)',
   height: 'auto',
   bgcolor: '#252424',
-  boxShadow: 24,
   borderRadius: 4,
   padding: 3,
   boxShadow:
@@ -36,7 +35,7 @@ const ModalForPosts = ({
   closeModal,
   open,
 }) => {
-  const { getAllPostsFromFriends, getAll } = useContext(AuthContext);
+  const { getAllPostsFromFriends } = useContext(AuthContext);
 
   const auth = useAuth();
   const [user, token] = auth;

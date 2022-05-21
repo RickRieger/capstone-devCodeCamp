@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, Link, NavLink } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import './NavBar.css';
@@ -12,7 +12,6 @@ const Navbar = () => {
     token,
     musicCollection,
     setMusicCollection,
-    searchResults,
     setSearchResults,
   } = useContext(AuthContext);
   const navigate = useNavigate();

@@ -112,7 +112,6 @@ const HomePage = () => {
               })}
           </div>
         </div>
-        {/* <h1>Home Page for {user.username}!</h1> */}
       </div>
     );
   } else {
