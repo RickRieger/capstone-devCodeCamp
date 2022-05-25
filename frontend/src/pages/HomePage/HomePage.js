@@ -19,12 +19,15 @@ const HomePage = () => {
     getAllFriends();
   }, []);
 
-  const toggleShowPlayer = (index, showPlayer) => {
-    const newFeed = feed.map((feed, feedIndex) => {
-      if (feedIndex === index) {
-        return { ...feed, showPlayer };
+  const toggleShowPlayer = (indexClicked, showPlayer) => {
+    console.log('showPlayer===>', showPlayer);
+    console.log('indexClicked===>', indexClicked);
+
+    const newFeed = feed.map((post, postIndex) => {
+      if (postIndex === indexClicked) {
+        return { ...post, showPlayer };
       }
-      return { ...feed, showPlayer: false };
+      return { ...post, showPlayer: false };
     });
     setFeed(newFeed);
   };
@@ -50,6 +53,7 @@ const HomePage = () => {
       <div className='container-main'>
         <div className='container-cards'>
           {feed.map((result, index) => {
+            console.log('Each Post===>', result);
             return (
               <MusicCard
                 getAllPostsFromFriends={getAllPostsFromFriends}

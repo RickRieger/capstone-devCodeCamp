@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
+import ReactDOM from 'react-dom';
+import { createApi } from 'unsplash-js';
 import useAuth from '../../hooks/useAuth';
 import AuthContext from '../../context/AuthContext';
 import { useParams } from 'react-router-dom';
@@ -10,6 +12,14 @@ import Friend from '../../components/Friend/Friend';
 import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 import './UserProfile.css';
+
+//FOR RANDOM PHOTO "UPSPLASH API"
+const api = createApi({
+  // Don't forget to set your access token here!
+  // See https://unsplash.com/developers
+  accessKey: 'vkdIPTn4xVNPo20E40Sxv8rUjANBRy08fQfFk54PNoc',
+});
+
 const UserProfile = () => {
   const navigate = useNavigate();
   const [profileInfo, setProfileInfo] = useState(null);
@@ -20,7 +30,30 @@ const UserProfile = () => {
   const [avatarImage, setAvatarImage] = useState('');
   const params = useParams();
   const { searchResults, setSearchResults } = useContext(AuthContext);
+  const [data, setPhotosResponse] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [photoAtt, setPhotoAtt] = useState(null);
+
+  const [image, setImage] = useState(null);
   useEffect(() => {
+    api.search
+      .getPhotos({
+        query: 'random',
+        orientation: 'landscape',
+        page: 1,
+        perPage: 20,
+      })
+      .then((result) => {
+        setPhoto(result.response.results[0].urls.regular);
+        setPhotosResponse(result.response.results);
+        let index = Math.floor(Math.random() * result.response.results.length);
+        setPhoto(result.response.results[index].urls.regular);
+        setPhotoAtt(result.response.results[index].user);
+      })
+      .catch(() => {
+        console.log('something went wrong!');
+      });
+
     getAllLoggedInUsersFriends();
     getUserInfo();
     getAllFriendsOfProfile();
@@ -127,6 +160,15 @@ const UserProfile = () => {
       });
     } catch (e) {
       console.log(e);
+      toast('\ud83d\ude01 Request already sent!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
   const handleUnfriend = async (id) => {
@@ -134,7 +176,7 @@ const UserProfile = () => {
     if (!bool) {
       return;
     }
-    debugger;
+
     try {
       let res = await axios.delete(
         `http://127.0.0.1:8000/api/friends/${id}`,
@@ -173,30 +215,59 @@ const UserProfile = () => {
       console.log(e);
     }
   };
-  const handleFriendRequest = async (requestId) => {
-    let bool = window.confirm(
-      `Are you sure you want to accept this friend request?`
-    );
-    if (!bool) {
-      return;
-    }
-    try {
-      let res = await axios.patch(
-        `http://127.0.0.1:8000/api/friends/${requestId}`,
-        {
-          status: 'Accepted',
-        },
-
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
+  const handleFriendRequest = async (request, deleteRequest = false) => {
+    if (deleteRequest) {
+      let bool = window.confirm(
+        `Are you sure you want to delete this friend request homie?`
       );
-      getPendingFriendRequests();
-      getAllFriendsOfProfile();
-    } catch (e) {
-      console.log(e);
+      if (!bool) {
+        return;
+      }
+      try {
+        let res = await axios.delete(
+          `http://127.0.0.1:8000/api/friends/${request.requestor.id}`,
+
+          {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        );
+        let filteredRequests = pendingFriendRequests.filter(
+          (req) => req.id !== request.id
+        );
+        setPendingFriendRequests(filteredRequests);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      let bool = window.confirm(
+        `Are you sure you want to accept this friend request?`
+      );
+      if (!bool) {
+        return;
+      }
+      try {
+        let res = await axios.patch(
+          `http://127.0.0.1:8000/api/friends/${request.id}`,
+          {
+            status: 'Accepted',
+          },
+
+          {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        );
+        let filteredRequests = pendingFriendRequests.filter(
+          (req) => req.id !== request.id
+        );
+        setPendingFriendRequests(filteredRequests);
+        setProfileFriends([...profileFriends, request.requestor]);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
   return (
@@ -236,6 +307,7 @@ const UserProfile = () => {
             <>
               {pendingFriendRequests &&
                 pendingFriendRequests.map((request) => {
+                  console.log(request);
                   return (
                     <div key={request.id}>
                       <Friend
@@ -248,14 +320,12 @@ const UserProfile = () => {
                         handleUnfriend={handleUnfriend}
                       />
                       <div className='btn-group btn-accept'>
-                        <button onClick={() => handleFriendRequest(request.id)}>
+                        <button onClick={() => handleFriendRequest(request)}>
                           Accept
                         </button>
                         <button
                           className='btn-delete'
-                          onClick={() =>
-                            handleDeleteRequest(request.requestor.id)
-                          }
+                          onClick={() => handleFriendRequest(request, true)}
                         >
                           Delete
                         </button>
@@ -295,7 +365,29 @@ const UserProfile = () => {
               )}
             </span>
           </div>
-          <img src='https://source.unsplash.com/random' alt='' />
+          {photo && <img src={photo} alt='background image' />}
+          {photoAtt && (
+            <a
+              className='credit'
+              target='_blank'
+              href={`https://unsplash.com/@${photoAtt.username}`}
+            >
+              {`Photo by: ${photoAtt.name}`}
+            </a>
+          )}
+
+          {/* {data && (
+            <div className='feed'>
+              <ul className='columnUl'>
+                {data.response.results.map((photo) => (
+                  <li key={photo.id} className='li'>
+                    <PhotoComp photo={photo} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )} */}
+
           <div className='avatar-bg'>
             <Avatar
               id='user-profile-avatar'
@@ -344,6 +436,7 @@ const UserProfile = () => {
           </h1>
           {profileFriends &&
             profileFriends.map((friend) => {
+              console.log(friend);
               return (
                 <div key={friend.id}>
                   <Friend

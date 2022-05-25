@@ -109,7 +109,6 @@ const SearchResults = ({ upDateSearch, setUpDateSearch }) => {
     return (
       <div className='container'>
         {musicCollection.map((result, index) => {
-          console.log(result.album.id);
           return (
             <MusicCard
               album_image={

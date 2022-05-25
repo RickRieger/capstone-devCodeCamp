@@ -161,8 +161,8 @@ const ModalForPosts = ({
             }}
             onClick={() => {
               sendPostToTheBackEnd();
-              navigate('/');
               getAllPostsFromFriends();
+              navigate('/');
             }}
           >
             Post

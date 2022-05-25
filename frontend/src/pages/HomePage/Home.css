@@ -9,7 +9,7 @@
   margin-bottom: 20rem;
 }
 .feed-card {
-  width: 500px;
+  width: 730px;
   display: flex;
   flex-direction: column;
   block-size: fit-content;
@@ -20,6 +20,8 @@
   margin-top: 10rem;
   margin-bottom: 20rem;
   position: relative;
+  border: 2px solid black;
+  box-shadow: -3px -3px 15px 3px red, 3px 3px 15px 3px blue;
 }
 .event-image {
   border-top-left-radius: 1rem;

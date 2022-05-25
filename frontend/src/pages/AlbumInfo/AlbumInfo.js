@@ -29,9 +29,9 @@ const AlbumInfo = () => {
   };
   if (!albumInfo) {
     return (
-      <div style={{ marginTop: '10rem', display: 'flex', flexWrap: 'wrap' }}>
-        Nothing to display
-      </div>
+      <div
+        style={{ marginTop: '10rem', display: 'flex', flexWrap: 'wrap' }}
+      ></div>
     );
   } else {
     return (
