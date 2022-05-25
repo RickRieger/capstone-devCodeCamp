@@ -31,18 +31,6 @@ def friend_request(request, pk=''):
     serializer.save()
     return Response(serializer.data,status=status.HTTP_200_OK)
   if request.method == 'GET':
-    # if pk != '':
-    #   print('**************nopk*****************')
-
-    #   friendIds = FriendshipStatus.objects.filter(requestor = request.user.id).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = request.user.id).filter(status = 'accepted').only('requestor', 'requestTo')
-    #   friends = []
-    #   for item in friendIds:
-    #     if item.requestor == request.user:
-    #       friends.append(item.requestTo)
-    #     elif item.requestTo == request.user:
-    #       friends.append(item.requestor)
-    #   serializer = UsersSerializer(friends, many=True)
-   
     print('*************pk******************', pk)
     user = get_object_or_404(User, pk = pk)
     friendIds = FriendshipStatus.objects.filter(requestor = pk).filter(status = 'accepted') | FriendshipStatus.objects.filter(requestTo = pk).filter(status = 'accepted').only('requestor', 'requestTo')
@@ -56,7 +44,7 @@ def friend_request(request, pk=''):
     return Response(serializer.data,status=status.HTTP_200_OK)  
   if request.method == 'DELETE':
     friend = get_object_or_404(User, pk=pk)
-    print('*******pk:', pk)
+    print('***OOOOOOO****pk:', pk)
     print('*******user:', request.user.username)
     friendRequest = FriendshipStatus.objects.filter(requestor = request.user.id) | FriendshipStatus.objects.filter(requestTo = request.user.id).only('requestor', 'requestTo')
     for item in friendRequest:
